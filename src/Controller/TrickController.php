@@ -49,7 +49,23 @@ class TrickController extends AbstractController
         }
 
         return $this->render('trick/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'trick' => $trick
         ]);
+    }
+
+    #[Route('/trick/delete/{id}', name: 'app_trick_delete', methods: ["GET", "POST"])]
+    public function delete(int $id, TrickRepository $repo): Response
+    {
+        $trick = $repo->get($id);
+
+        if (empty($trick)) {
+            $this->addFlash('warning', "Le trick demandé n'a pas été trouvé !");
+        } else {
+            $repo->remove($trick, true);
+            $this->addFlash('success', "Trick supprimé !");
+        }
+
+        return $this->redirectToRoute('app_home');
     }
 }

@@ -1,10 +1,13 @@
 {% extends 'base.html.twig' %}
 
+{% use "Elements/Modals/trick/delete.html.twig" %}
+
 {% block title %}
   Log in!
 {% endblock %}
 
 {% block content %}
+  {{ block('trick_delete_modal') }}
   <div class="h-100 d-flex">
     <div class="m-auto p-1 p-sm-0">
       <div class="card">
@@ -16,6 +19,7 @@
           {{ form_rest(form) }}
 
           <button class="btn btn-primary" type="submit">Enregistrer</button>
+          {{ block('trick_delete_button') }}
           {{ form_end(form) }}
         </div>
       </div>
