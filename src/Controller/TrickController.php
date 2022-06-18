@@ -12,8 +12,8 @@ use App\Form\TrickEditType;
 
 class TrickController extends AbstractController
 {
-    #[Route('/trick/add', name: 'app_trick_add', methods: ["GET", "POST"])]
-    public function signup(Request $request, TrickRepository $repo): Response
+    #[Route('/trick/new', name: 'app_trick_new', methods: ["GET", "POST"])]
+    public function new(Request $request, TrickRepository $repo): Response
     {
         $trick = new Trick();
 
@@ -26,7 +26,7 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('trick/edit.html.twig', [
+        return $this->render('trick/new.html.twig', [
             'form' => $form->createView()
         ]);
     }

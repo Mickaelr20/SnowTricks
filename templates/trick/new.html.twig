@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Log in!
+{% endblock %}
+
+{% block content %}
+  <div class="h-100 d-flex">
+    <div class="m-auto p-1 p-sm-0">
+      <div class="card">
+        <div class="card-header">
+          S'inscrire
+        </div>
+        <div class="card-body">
+          {{ form_start(form) }}
+          {{ form_rest(form) }}
+
+          <button class="btn btn-primary" type="submit">Enregistrer</button>
+          {{ form_end(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
