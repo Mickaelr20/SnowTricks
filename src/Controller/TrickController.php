@@ -30,4 +30,26 @@ class TrickController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[Route('/trick/edit/{id}', name: 'app_trick_edit', methods: ["GET", "POST"])]
+    public function edit(int $id, Request $request, TrickRepository $repo): Response
+    {
+        $trick = $repo->get($id);
+
+        if (empty($trick)) {
+            throw new \Exception('Le trick demandé n\'a pas été trouvé.');
+        }
+        $form = $this->createForm(TrickEditType::class, $trick);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $repo->add($trick, true);
+            $this->addFlash('success', "Trick Modifié !");
+            return $this->redirectToRoute('app_trick_edit', ['id' => $trick->getId()]);
+        }
+
+        return $this->render('trick/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 }
