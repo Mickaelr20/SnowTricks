@@ -1,0 +1,21 @@
+{% block trick_delete_button %}
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#TrickDeleteModal">
+        Supprimer le trick
+    </button>
+{% endblock %}
+
+{% block trick_delete_modal %}
+<div class="modal fade" id="TrickDeleteModal" tabindex="-1" aria-labelledby="TrickDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <h4 class="mb-3">Souhaitez - vous vraiment supprimer ce trick ?</h5>
+        <div class="d-flex flex-row justify-content-center flex-wrap">
+            <button type="button" class="m-2 btn btn-secondary" data-bs-dismiss="modal">Non</button>
+            <a href="/trick/delete/{{trick.id}}" class="m-2 btn btn-danger">Oui</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
