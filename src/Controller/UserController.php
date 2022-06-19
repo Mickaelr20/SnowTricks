@@ -32,7 +32,8 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/signup.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'page_title' => 'S\'enregistrer'
         ]);
     }
 
@@ -47,7 +48,12 @@ class UserController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-        return $this->render('user/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('user/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' =>
+            $error,
+            'page_title' => 'Se connecter'
+        ]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]

@@ -1,10 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% use "Elements/Modals/trick/delete.html.twig" %}
-
-{% block title %}
-  Log in!
-{% endblock %}
+{% use "Elements/trick/delete_modal.html.twig" %}
 
 {% block content %}
   {{ block('trick_delete_modal') }}
