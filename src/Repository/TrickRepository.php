@@ -50,4 +50,15 @@ class TrickRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function listPage($page, $limit = 12): array
+    {
+        $results = [];
+        $offset = $limit * $page;
+        return $this->createQueryBuilder('tricks')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }
