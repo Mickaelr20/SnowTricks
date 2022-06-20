@@ -1,0 +1,40 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  max-height: calc(100vh / 1.75);
+  min-height: calc(100vh / 2);
+  background-image: url("/images/image_accueil.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.header-content {
+  margin: auto;
+  background-color: #ffffff7b;
+  padding: 1rem 4rem;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: bold;
+  display: inline-block;
+  border-bottom: 0.1rem solid black;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.header-subtitle {
+  font-size: 1rem;
+}
+
+.header-img {
+  object-fit: cover;
+  width: 100%;
+  max-height: calc(100vh / 1.75);
+  min-height: calc(100vh / 2);
+}

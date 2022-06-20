@@ -1,15 +1,23 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets_top %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/home.css" />
 {% endblock %}
 
 {% block content %}
-  <div class="container">
-    <h1>
-      Bienvenue
-    </h1>
-    <p>
-      sur SnowTricks
-    </p>
+  <div class="container-fluid p-0">
+  <!-- Background designed by Freepik -->
+    <div class="header">
+      <div class="header-content">
+        <div class="header-title">SnowTricks</div>
+        <div class="header-subtitle">Annuaire de tricks de Snowboard</div>
+      </div>
+      <a href="#tricks" class="scroll-arrow scroll-down p-3"><i class="bi bi-arrow-down-circle-fill"></i></a>
+    </div>
+  </div>
   </div>
 {% endblock %}
 
