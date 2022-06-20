@@ -1,0 +1,23 @@
+<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 py-3">
+  <div class="card trick-card h-100">
+    <img src="/images/image_accueil.jpg" class="card-img-top" alt="..." />
+    <div class="card-footer bg-transparent h-100 d-flex d-flex justify-content-between">
+      <div class="my-auto">
+        <a class="fw-bold" href="/trick/view/{{ trick.id }}">
+            {{ trick.name|capitalize }}
+        </a>
+      </div>
+      {% if app.user %}
+        <div class="my-auto d-flex flex-nowrap">
+            <a href="/trick/edit/{{ trick.id }}" title="Modifier le trick" class="btn btn-default p-0 ms-1">
+            <i class="bi bi-pencil-fill"></i>
+            </a>
+            <a href="#" title="Supprimer le trick" title="Modifier le trick" class="btn btn-default p-0 ms-1"
+            data-bs-toggle="modal" data-bs-target="#TrickDeleteModal_{{ trick.id }}">
+            <i class="bi bi-trash-fill"></i>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+  </div>
+</div>

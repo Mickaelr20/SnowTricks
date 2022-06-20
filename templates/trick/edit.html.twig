@@ -1,9 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% use "Elements/trick/delete_modal.html.twig" %}
-
 {% block content %}
-  {{ block('trick_delete_modal') }}
+  {% include 'Elements/trick/delete_modal.html.twig' with {'trick': trick} %}
+
   <div class="h-100 d-flex">
     <div class="m-auto p-1 p-sm-0">
       <div class="card">
@@ -15,7 +14,9 @@
           {{ form_rest(form) }}
 
           <button class="btn btn-primary" type="submit">Enregistrer</button>
-          {{ block('trick_delete_button') }}
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#TrickDeleteModal_{{ trick.id }}">
+            Supprimer le trick
+          </button>
           {{ form_end(form) }}
         </div>
       </div>

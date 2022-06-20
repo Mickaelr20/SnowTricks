@@ -38,3 +38,16 @@
   max-height: calc(100vh / 1.75);
   min-height: calc(100vh / 2);
 }
+
+.trick-card:hover,
+.trick-card:focus,
+.trick-card:active {
+  transform: scale3d(1.02, 1.02, 1.02);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.trick-card {
+  transition: 0.1s;
+}
+
