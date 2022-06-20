@@ -51,3 +51,23 @@
   transition: 0.1s;
 }
 
+.scroll-arrow {
+  color: inherit;
+  font-size: 2rem;
+  transition: 0.2s;
+  opacity: 0.75;
+}
+
+.scroll-arrow.scroll-down {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.scroll-arrow:hover,
+.scroll-arrow:focus,
+.scroll-arrow:active {
+  text-decoration: none;
+  color: inherit;
+  opacity: 1;
+}
