@@ -23,16 +23,8 @@ class TrickEditType extends AbstractType
         $builder
             ->add('thumbnail', FileType::class, [
                 'label' => 'Image primaire (png / jpeg)',
-
-                // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
-
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
                 'required' => false,
-
-                // unmapped fields can't define their validation using annotations
-                // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new Required(),
                     new File([
@@ -41,11 +33,17 @@ class TrickEditType extends AbstractType
                             'image/png',
                             'image/jpeg',
                         ],
-                        'mimeTypesMessage' => 'Merci d\'envoyer une image',
+                        'mimeTypesMessage' => 'Merci d\'envoyer une image png ou jpeg',
                     ])
-                ],
+                ]
             ])
             ->add('name', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                    new Length(['max' => 255])
+                ]
+            ])
+            ->add('slug', TextType::class, [
                 'constraints' => [
                     new NotBlank(),
                     new Length(['max' => 255])
@@ -74,7 +72,8 @@ class TrickEditType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Trick::class,
             'constraints' => [
-                new UniqueEntity('name', 'Ce nom est déjà pris.')
+                new UniqueEntity('name', 'Ce nom est déjà pris.'),
+                new UniqueEntity('slug', 'Ce slug existe déjà.')
             ]
         ]);
     }

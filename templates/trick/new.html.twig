@@ -14,10 +14,17 @@
       <div class="col-12 col-md-6">
         {{ form_row(form.category) }}
       </div>
+      <div class="col-12">
+        {{ form_row(form.slug) }}
+      </div>
       {{ form_row(form.description) }}
     </div>
     <button class="ms-auto btn btn-primary" type="submit">Enregistrer</button>
 
     {{ form_end(form) }}
   </div>
+{% endblock %}
+
+{% block javascripts_bottom %}
+		<script src="/scripts/tricks.js"></script>
 {% endblock %}
