@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+  {% include 'Elements/trick/delete_modal.html.twig' with {
+    trick: trick
+  } %}
+
+  <div class="header">
+    <img class="header-image" src="/images/image_accueil.jpg" alt="" />
+    <div class="header-title">
+      {{ trick.name }}
+    </div>
+    <div class="position-absolute end-0 top-0 m-2">
+      <a href="/trick/edit/{{ trick.id }}"
+        title="Modifier le trick"
+        class="btn btn-sm btn-primary">
+        <i class="bi bi-pencil-fill"></i>
+      </a>
+      <a href="#"
+        title="Supprimer le trick"
+        title="Modifier le trick"
+        class="btn btn-sm btn-danger"
+        data-bs-toggle="modal"
+        data-bs-target="#TrickDeleteModal_{{ trick.id }}">
+        <i class="bi bi-trash-fill"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class=""
+    style="height: 200px;background-color: grey;text-align: center;display: flex;">
+    <h2 style="margin: auto;">
+      Médias
+    </h2>
+  </div>
+
+  <div class=""
+    style="height: 400px;background-color: cyan;text-align: center;display: flex;">
+    <h2 style="margin: auto;">
+      Text / description ...
+    </h2>
+  </div>
+
+  <div class=""
+    style="height: 100px;background-color: pink;text-align: center;display: flex;">
+    <h2 style="margin: auto;">
+      Notes : Dates création, modification, le groupe du trick
+    </h2>
+  </div>
+
+  <div class="container">
+    {{ form_start(form_comment) }}
+    {{ form_rest(form_comment) }}
+    <button class="btn btn-primary" type="submit">Envoyer</button>
+    {{ form_end(form_comment) }}
+  </div>
+
+    <div class="container">
+        <!-- example de commentaire -->
+    </div>
+{% endblock %}
+
+{% block stylesheets_bottom %}
+  <link rel="stylesheet" href="/styles/trick_view.css" />
+{% endblock %}

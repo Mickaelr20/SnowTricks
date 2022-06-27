@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Repository\TrickRepository;
 use App\Entity\Trick;
 use App\Form\TrickEditType;
+use App\Form\CommentAddType;
 
 class TrickController extends AbstractController
 {
@@ -71,4 +72,17 @@ class TrickController extends AbstractController
 
         return $this->redirectToRoute('app_home');
     }
+
+    #[Route('/trick/view/{id}', name: 'app_trick_view', methods: ["GET", "POST"])]
+    public function view(Trick $trick): Response
+    {
+        $formComment = $this->createForm(CommentAddType::class);
+
+        return $this->renderForm('trick/view.html.twig', [
+            'form_comment' => $formComment,
+            'trick' => $trick,
+            'page_title' => $trick->getName() . " - trick"
+        ]);
+    }
+
 }
