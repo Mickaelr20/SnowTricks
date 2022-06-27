@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% if trick.thumbnailFilename %}
+  {% set filenameFullPath = '/uploads/thumbnails/' ~ trick.thumbnailFilename %}
+{% else %}
+  {% set filenameFullPath = '/images/empty_image.png' %}
+{% endif %}
+
 {% block content %}
   {% include 'Elements/trick/delete_modal.html.twig' with {
     trick: trick
   } %}
 
   <div class="header">
-  {% set filenameFullPath = "" %}
-  {% if trick.thumbnailFilename %}
-    {% set filenameFullPath = '/uploads/thumbnails/' ~ trick.thumbnailFilename %}
-  {% else %}
-    {% set filenameFullPath = '/images/empty_image.png' %}
-  {% endif %}
-    <img class="header-image" src="{{ filenameFullPath }}" alt="" />
+    <img class="header-image" src="{{ filenameFullPath }}" alt="Thumbnail" />
     <div class="header-title">
       {{ trick.name }}
     </div>

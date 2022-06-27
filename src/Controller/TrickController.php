@@ -51,12 +51,35 @@ class TrickController extends AbstractController
     }
 
     #[Route('/trick/edit/{slug}', name: 'app_trick_edit', methods: ["GET", "POST"])]
-    public function edit(Trick $trick, Request $request, TrickRepository $repo): Response
+    public function edit(Trick $trick, Request $request, TrickRepository $repo, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(TrickEditType::class, $trick);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $thumbnailFile = $form->get('thumbnail')->getData();
+
+            if ($thumbnailFile) {
+                //Supprimer l'ancienne thumbnail
+                $oldTrick = $repo->get($trick->getId());
+                $oldThumbnail = $this->getParameter('thumbnails_directory') . "/" . $oldTrick->getThumbnailFilename();
+
+                if (file_exists($oldThumbnail)) {
+                    unlink($oldThumbnail);
+                }
+
+                $originalFilename = pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $thumbnailFile->guessExtension();
+
+                $thumbnailFile->move(
+                    $this->getParameter('thumbnails_directory'),
+                    $newFilename
+                );
+
+                $trick->setThumbnailFilename($newFilename);
+            }
+
             $trick->setModified(new \DateTime());
             $repo->add($trick, true);
             $this->addFlash('success', "Trick Modifié !");
@@ -76,10 +99,9 @@ class TrickController extends AbstractController
     {
         $thumbnail = $this->getParameter('thumbnails_directory') . "/" . $trick->getThumbnailFilename();
 
-        if(file_exists($thumbnail)){
+        if (file_exists($thumbnail)) {
             unlink($thumbnail);
         }
-        
 
         $repo->remove($trick, true);
         $this->addFlash('success', "Trick supprimé !");

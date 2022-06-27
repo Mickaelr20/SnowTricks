@@ -1,5 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% set filenameFullPath = "" %}
+{% if trick.thumbnailFilename %}
+  {% set filenameFullPath = '/uploads/thumbnails/' ~ trick.thumbnailFilename %}
+{% else %}
+  {% set filenameFullPath = '/images/empty_image.png' %}
+{% endif %}
+
 {% block content %}
   {% include 'Elements/trick/delete_modal.html.twig' with {'trick': trick} %}
 
@@ -7,7 +14,12 @@
     {{ form_start(form, {"attr": {"class": "d-flex flex-column py-3"}}) }}
     <div class="row">
       <div class="col-12">
-        {{ form_row(form.thumbnail) }}
+        <div class="file-uploader">
+            {{ form_label(form.thumbnail, null, {"label_attr": {"class": "uploader-label"}}) }}
+            {{ form_widget(form.thumbnail, {"attr": {"class": "d-none"}}) }}
+            <img id="thumbnailPreview" src="{{ filenameFullPath }}" alt="Thumbnail preview">
+            <label id="thumbnailPath" class="form-label uploader-label">Cliquer pour modifier l'image</label>
+        </div>
       </div>
 
 
@@ -31,7 +43,10 @@
 
     {{ form_end(form) }}
   </div>
+{% endblock %}
 
+{% block stylesheets_bottom %}
+  <link rel="stylesheet" href="/styles/tricks.css">
 {% endblock %}
 
 {% block javascripts_bottom %}
