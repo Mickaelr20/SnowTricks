@@ -19,6 +19,18 @@ class Trick
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $description;
+
+    #[ORM\Column(type: 'datetime')]
+    private $created;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $modified;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $thumbnailFilename;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +56,54 @@ class Trick
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): self
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    public function getModified(): ?\DateTimeInterface
+    {
+        return $this->modified;
+    }
+
+    public function setModified(?\DateTimeInterface $modified): self
+    {
+        $this->modified = $modified;
+
+        return $this;
+    }
+
+    public function getThumbnailFilename(): ?string
+    {
+        return $this->thumbnailFilename;
+    }
+
+    public function setThumbnailFilename(string $thumbnailFilename): self
+    {
+        $this->thumbnailFilename = $thumbnailFilename;
 
         return $this;
     }

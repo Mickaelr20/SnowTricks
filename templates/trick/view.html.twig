@@ -6,7 +6,13 @@
   } %}
 
   <div class="header">
-    <img class="header-image" src="/images/image_accueil.jpg" alt="" />
+  {% set filenameFullPath = "" %}
+  {% if trick.thumbnailFilename %}
+    {% set filenameFullPath = '/uploads/thumbnails/' ~ trick.thumbnailFilename %}
+  {% else %}
+    {% set filenameFullPath = '/images/empty_image.png' %}
+  {% endif %}
+    <img class="header-image" src="{{ filenameFullPath }}" alt="" />
     <div class="header-title">
       {{ trick.name }}
     </div>

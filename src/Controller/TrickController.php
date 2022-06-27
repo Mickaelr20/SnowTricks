@@ -10,18 +10,35 @@ use App\Repository\TrickRepository;
 use App\Entity\Trick;
 use App\Form\TrickEditType;
 use App\Form\CommentAddType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TrickController extends AbstractController
 {
     #[Route('/trick/new', name: 'app_trick_new', methods: ["GET", "POST"])]
-    public function new(Request $request, TrickRepository $repo): Response
+    public function new(Request $request, TrickRepository $repo, SluggerInterface $slugger): Response
     {
         $trick = new Trick();
-
         $form = $this->createForm(TrickEditType::class, $trick);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $thumbnailFile = $form->get('thumbnail')->getData();
+
+            if ($thumbnailFile) {
+                $originalFilename = pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $thumbnailFile->guessExtension();
+
+                $thumbnailFile->move(
+                    $this->getParameter('thumbnails_directory'),
+                    $newFilename
+                );
+
+                $trick->setThumbnailFilename($newFilename);
+            }
+
+            $trick->setCreated(new \DateTime());
             $repo->add($trick, true);
             $this->addFlash('success', "Trick ajouté");
             return $this->redirectToRoute('app_trick_edit', ['id' => $trick->getId()]);
@@ -40,6 +57,7 @@ class TrickController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $trick->setModified(new \DateTime());
             $repo->add($trick, true);
             $this->addFlash('success', "Trick Modifié !");
             return $this->redirectToRoute('app_trick_edit', ['id' => $trick->getId()]);
@@ -56,6 +74,8 @@ class TrickController extends AbstractController
     #[Route('/trick/delete/{id}', name: 'app_trick_delete', methods: ["GET", "POST"])]
     public function delete(Trick $trick, TrickRepository $repo): Response
     {
+        $repo->remove($trick, true);
+        $this->addFlash('success', "Trick supprimé !");
 
         return $this->redirectToRoute('app_home');
     }
@@ -71,5 +91,4 @@ class TrickController extends AbstractController
             'page_title' => $trick->getName() . " - trick"
         ]);
     }
-
 }
