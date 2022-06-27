@@ -34,13 +34,8 @@ class TrickController extends AbstractController
     }
 
     #[Route('/trick/edit/{id}', name: 'app_trick_edit', methods: ["GET", "POST"])]
-    public function edit(int $id, Request $request, TrickRepository $repo): Response
+    public function edit(Trick $trick, Request $request, TrickRepository $repo): Response
     {
-        $trick = $repo->get($id);
-
-        if (empty($trick)) {
-            throw new \Exception('Le trick demandé n\'a pas été trouvé.');
-        }
         $form = $this->createForm(TrickEditType::class, $trick);
 
         $form->handleRequest($request);
@@ -59,16 +54,8 @@ class TrickController extends AbstractController
     }
 
     #[Route('/trick/delete/{id}', name: 'app_trick_delete', methods: ["GET", "POST"])]
-    public function delete(int $id, TrickRepository $repo): Response
+    public function delete(Trick $trick, TrickRepository $repo): Response
     {
-        $trick = $repo->get($id);
-
-        if (empty($trick)) {
-            $this->addFlash('warning', "Le trick demandé n'a pas été trouvé !");
-        } else {
-            $repo->remove($trick, true);
-            $this->addFlash('success', "Trick supprimé !");
-        }
 
         return $this->redirectToRoute('app_home');
     }
