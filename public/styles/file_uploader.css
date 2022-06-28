@@ -1,10 +1,10 @@
-#thumbnailPreview {
+.file-uploader .thumbnail-preview {
   object-fit: contain;
   height: 200px;
   cursor: pointer;
 }
 
-#thumbnailPath {
+.file-uploader .thumbnail-path {
   cursor: pointer;
 }
 

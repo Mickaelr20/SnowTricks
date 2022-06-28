@@ -10,7 +10,6 @@ use App\Repository\TrickRepository;
 use App\Entity\Trick;
 use App\Form\TrickEditType;
 use App\Form\CommentAddType;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TrickController extends AbstractController
@@ -60,12 +59,14 @@ class TrickController extends AbstractController
             $thumbnailFile = $form->get('thumbnail')->getData();
 
             if ($thumbnailFile) {
-                //Supprimer l'ancienne thumbnail
+                //Supprimer l'ancienne thumbnail si elle existe
                 $oldTrick = $repo->get($trick->getId());
-                $oldThumbnail = $this->getParameter('thumbnails_directory') . "/" . $oldTrick->getThumbnailFilename();
+                if (!empty($oldTrick->getThumbnailFilename())) {
+                    $oldThumbnail = $this->getParameter('thumbnails_directory') . "/" . $oldTrick->getThumbnailFilename();
 
-                if (file_exists($oldThumbnail)) {
-                    unlink($oldThumbnail);
+                    if (file_exists($oldThumbnail) && is_file($oldThumbnail)) {
+                        unlink($oldThumbnail);
+                    }
                 }
 
                 $originalFilename = pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -88,8 +89,7 @@ class TrickController extends AbstractController
 
         return $this->render('trick/edit.html.twig', [
             'form' => $form->createView(),
-            'trick' =>
-            $trick,
+            'trick' => $trick,
             'page_title' => 'Modifier un trick'
         ]);
     }

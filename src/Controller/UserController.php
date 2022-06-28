@@ -11,7 +11,9 @@ use App\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
 use App\Form\UserSignupType;
-use App\Form\UserLoginType;
+use App\Form\UserSettingsType;
+use App\Form\UserPasswordType;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UserController extends AbstractController
 {
@@ -60,5 +62,73 @@ class UserController extends AbstractController
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    #[Route('/user/settings', name: 'app_user_settings', methods: ["GET", "POST"])]
+    public function settings(Request $request, UserRepository $repo, SluggerInterface $slugger, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $activeTab = $request->query->get("active_tab") ?? "profile";
+        $username = $this->getUser()->getUserIdentifier();
+        $user = $repo->get($username);
+        $settingsForm = $this->createForm(UserSettingsType::class, $user);
+
+        $settingsForm->handleRequest($request);
+        if ($settingsForm->isSubmitted()) {
+            $activeTab = "profile";
+        }
+        if ($settingsForm->isSubmitted() && $settingsForm->isValid()) {
+            $profilePictureFile = $settingsForm->get('profilePicture')->getData();
+
+            if ($profilePictureFile) {
+                //Supprimer l'ancienne photo de profile si elle existe
+                $oldUser = $repo->get($username);
+                if (!empty($oldUser->getProfilePictureFilename())) {
+                    $oldProfilePicture = $this->getParameter('profile_pictures_directory') . "/" . $oldUser->getProfilePictureFilename();
+                    if (file_exists($oldProfilePicture) && is_file($oldProfilePicture)) {
+                        unlink($oldProfilePicture);
+                    }
+                }
+
+                $originalFilename = pathinfo($profilePictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $profilePictureFile->guessExtension();
+
+                $profilePictureFile->move(
+                    $this->getParameter('profile_pictures_directory'),
+                    $newFilename
+                );
+
+                $user->setProfilePictureFilename($newFilename);
+            }
+            $repo->add($user, true);
+            $this->addFlash('success', "Modification(s) effectuée(s) !");
+            return $this->redirectToRoute('app_user_settings');
+        }
+
+        $passwordForm = $this->createForm(UserPasswordType::class);
+        $passwordForm->handleRequest($request);
+        if ($passwordForm->isSubmitted()) {
+            $activeTab = "password";
+        }
+        if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
+            $oldPassword = $passwordForm->get("oldPassword")->getData();
+            $newPasswordFirst = $passwordForm->get("newPassword")->get('first')->getData();
+
+            if ($passwordHasher->isPasswordValid($user, $oldPassword)) {
+                $newHashedPassword = $passwordHasher->hashPassword($user, $newPasswordFirst);
+                $user->setPassword($newHashedPassword);
+                $repo->add($user, true);
+                $this->addFlash('success', "Mot de passe modifié");
+                return $this->redirectToRoute('app_user_settings', ['active_tab' => $activeTab]);
+            }
+            $this->addFlash('danger', "Mot de passe actuel incorrect");
+        }
+
+        return $this->renderForm('user/settings.html.twig', [
+            'page_title' => 'Mon compte',
+            'settings_form' => $settingsForm,
+            'password_form' => $passwordForm,
+            'active_tab' => $activeTab
+        ]);
     }
 }

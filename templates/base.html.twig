@@ -23,18 +23,11 @@
 	</head>
 	<body class="d-flex flex-column min-vh-100">
 		{% include 'app_navbar.html.twig' %}
-		<div class="position-relative">
-			<div class="position-absolute top-0 end-0">
-				{% for label, messages in app.flashes %}
-					{% for message in messages %}
-						<div class="alert alert-{{label}} alert-dismissible fade show m-3" role="alert">
-						{{ message }}
-						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-						</div>
-					{% endfor %}
-				{% endfor %}
-			</div>
-		</div>
+		{% if defaultFlashes is not defined or defaultFlashes == true %}
+			{% block app_flashes %}
+				{% include 'app_flash_notifications.html.twig' with {"flashes": app.flashes} %}
+			{% endblock %}
+		{% endif %}
 
 		{% block content %}{% endblock %}
 
