@@ -25,7 +25,7 @@
 		{% include 'app_navbar.html.twig' %}
 		{% if defaultFlashes is not defined or defaultFlashes == true %}
 			{% block app_flashes %}
-				{% include 'app_flash_notifications.html.twig' %}
+				{% include 'app_flash_notifications.html.twig' with {"flashes": app.flashes} %}
 			{% endblock %}
 		{% endif %}
 
