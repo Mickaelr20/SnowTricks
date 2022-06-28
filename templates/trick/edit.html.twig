@@ -17,8 +17,8 @@
         <div class="file-uploader">
             {{ form_label(form.thumbnail, null, {"label_attr": {"class": "uploader-label"}}) }}
             {{ form_widget(form.thumbnail, {"attr": {"class": "d-none"}}) }}
-            <img id="thumbnailPreview" src="{{ filenameFullPath }}" alt="Thumbnail preview">
-            <label id="thumbnailPath" class="form-label uploader-label">Cliquer pour modifier l'image</label>
+            <img class="thumbnail-preview" src="{{ filenameFullPath }}" alt="Thumbnail preview">
+            <label class="thumbnail-path form-label uploader-label">Cliquer pour modifier l'image</label>
         </div>
       </div>
 
@@ -46,9 +46,10 @@
 {% endblock %}
 
 {% block stylesheets_bottom %}
-  <link rel="stylesheet" href="/styles/tricks.css">
+  <link rel="stylesheet" href="/styles/file_uploader.css">
 {% endblock %}
 
 {% block javascripts_bottom %}
-		<script src="/scripts/tricks.js"></script>
+		<script src="/scripts/file_uploader.js"></script>
+    <script src="/scripts/tricks.js"></script>
 {% endblock %}
