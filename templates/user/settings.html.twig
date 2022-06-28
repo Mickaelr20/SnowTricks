@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% set route_name = app.request.attributes.get('_route') %}
+{% if app.user.profilePictureFilename %}
+  {% set filenameFullPath = '/uploads/profile_pictures/' ~ app.user.profilePictureFilename %}
+{% else %}
+  {% set filenameFullPath = '/images/empty_image.png' %}
+{% endif %}
+
+{% block content %}
+<div class="container py-3">
+  <div class="row">
+    <div class="col-12 col-md-3 col-xl-2">
+      <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <button class="nav-link{{active_tab == "profile" ? " active": ""}}" id="profile-tab-button" data-bs-toggle="pill" data-bs-target="#profile-tab" type="button" role="tab" aria-controls="profile-tab" aria-selected="{{active_tab == "profile" ? "true": "false"}}">Profile</button>
+        <button class="nav-link{{active_tab == "password" ? " active": ""}}" id="password-tab-button" data-bs-toggle="pill" data-bs-target="#password-tab" type="button" role="tab" aria-controls="password-tab" aria-selected="{{active_tab == "password" ? "true": "false"}}">Mot de passe</button>
+      </div>
+    </div>
+    <div class="col-12 col-md-9 col-xl-10">
+      <div class="container">
+        <div class="tab-content" id="v-pills-tabContent">
+          <div class="tab-pane fade {{active_tab == "profile" ? " show active": ""}}" id="profile-tab" role="tabpanel" aria-labelledby="profile-tab">
+              {{ form_start(settings_form) }}
+              <div class="file-uploader">
+                  {{ form_label(settings_form.profilePicture, null, {"label_attr": {"class": "uploader-label"}}) }}
+                  {{ form_widget(settings_form.profilePicture, {"attr": {"class": "d-none"}}) }}
+                  <img class="thumbnail-preview" src="{{ filenameFullPath }}" alt="Thumbnail preview">
+                  <label class="form-label uploader-label thumbnail-path">Cliquer pour modifier l'image</label>
+              </div>
+
+              {{ form_rest(settings_form) }}
+
+              <button class="btn btn-primary" type="submit">Sauvegarder</button>
+              {{ form_end(settings_form) }}
+          </div>
+          <div class="tab-pane fade{{active_tab == "password" ? " show active": ""}}" id="password-tab" role="tabpanel" aria-labelledby="password-tab">
+              {{ form_start(password_form) }}
+              {{ form_rest(password_form) }}
+              <button class="btn btn-primary" type="submit">Sauvegarder</button>
+              {{ form_end(password_form) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block stylesheets_bottom %}
+  <link rel="stylesheet" href="/styles/file_uploader.css">
+{% endblock %}
+
+{% block javascripts_bottom %}
+		<script src="/scripts/file_uploader.js"></script>
+{% endblock %}
