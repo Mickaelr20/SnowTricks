@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% if trick.thumbnailFilename %}
+  {% set filenameFullPath = '/uploads/thumbnails/' ~ trick.thumbnailFilename %}
+{% else %}
+  {% set filenameFullPath = '/images/empty_image.png' %}
+{% endif %}
+
+{% block content %}
+  {% include 'Elements/trick/delete_modal.html.twig' with {
+    trick: trick
+  } %}
+
+  <div class="header">
+    <img class="header-image" src="{{ filenameFullPath }}" alt="Thumbnail" />
+    <div class="header-title">
+      {{ trick.name }}
+    </div>
+    <div class="position-absolute end-0 top-0 m-2">
+      <a href="/trick/edit/{{ trick.slug }}"
+        title="Modifier le trick"
+        class="btn btn-sm btn-primary">
+        <i class="bi bi-pencil-fill"></i>
+      </a>
+      <a href="#"
+        title="Supprimer le trick"
+        title="Modifier le trick"
+        class="btn btn-sm btn-danger"
+        data-bs-toggle="modal"
+        data-bs-target="#TrickDeleteModal_{{ trick.id }}">
+        <i class="bi bi-trash-fill"></i>
+      </a>
+    </div>
+  </div>
+
+  <section class="px-3 mb-3"
+    style="height: 200px;background-color: grey;text-align: center;display: flex;">
+    <h2 style="margin: auto;">
+      Médias
+    </h2>
+  </section>
+
+  <section class="px-3 mb-3">
+    {{ trick.description }}
+  </section>
+
+  <section class="px-3 mb-3">
+    <div class="row">
+      <div class="d-flex flex-row justify-content-center flex-wrap">
+        <div class="rounded m-2 p-1 px-4 bg-light border">
+          <b>Catégorie</b><br />
+          {{ trick.category }}
+        </div>
+        <div class="rounded m-2 p-1 px-4 bg-light border">
+          <b>Créé le</b><br />
+          {{ trick.created|format_datetime() }}
+        </div>
+        <div class="rounded m-2 p-1 px-4 bg-light border">
+          <b>Modifié le</b><br />
+          {{ trick.modified|format_datetime() }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-3 mb-3">
+    <hr />
+  </section>
+
+  <div class="container">
+    {{ form_start(form_comment) }}
+    {{ form_rest(form_comment) }}
+    <button class="btn btn-primary" type="submit">Envoyer</button>
+    {{ form_end(form_comment) }}
+  </div>
+
+  <div class="container">
+    <!-- example de commentaire -->
+  </div>
+{% endblock %}
+
+{% block stylesheets_bottom %}
+  <link rel="stylesheet" href="/styles/trick_view.css" />
+{% endblock %}

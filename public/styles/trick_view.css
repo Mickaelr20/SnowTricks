@@ -1,0 +1,28 @@
+.header {
+  position: relative;
+  max-height: calc(100vh / 1.75);
+  min-height: calc(100vh / 2);
+  display: flex;
+}
+
+.header .header-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.header .header-title {
+  margin: auto;
+  background-color: #ffffff7b;
+  padding: 1rem 4rem;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+  z-index: 1;
+  font-size: 2rem;
+}
+
+.header .action_button {
+}
