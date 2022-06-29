@@ -41,7 +41,7 @@
   </section>
 
   <section class="px-3 mb-3">
-    {{ trick.description }}
+    {{ trick.description|nl2br() }}
   </section>
 
   <section class="px-3 mb-3">
@@ -67,18 +67,27 @@
     <hr />
   </section>
 
-  <div class="container">
+  <div class="container mb-4">
     {{ form_start(form_comment) }}
     {{ form_rest(form_comment) }}
     <button class="btn btn-primary" type="submit">Envoyer</button>
     {{ form_end(form_comment) }}
   </div>
 
-  <div class="container">
-    <!-- example de commentaire -->
+  <section class="px-3 mb-3">
+    <hr />
+  </section>
+
+  <div class="px-3 mb-3">
+    <ul id="commentList" class="container">
+      {% for comment in comments %}
+        {% include 'Elements/comment/display_card.html.twig' with {'comment': comment} %}
+      {% endfor %}
+		</ul>
   </div>
 {% endblock %}
 
 {% block stylesheets_bottom %}
   <link rel="stylesheet" href="/styles/trick_view.css" />
+  <link rel="stylesheet" href="/styles/comments.css" />
 {% endblock %}
