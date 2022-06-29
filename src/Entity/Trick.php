@@ -36,7 +36,7 @@ class Trick
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true, cascade: ['persist'])]
     private $comments;
 
     public function __construct()
@@ -145,7 +145,7 @@ class Trick
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
-            $comment->setAuthor($this);
+            $comment->setTrick($this);
         }
 
         return $this;
@@ -155,8 +155,8 @@ class Trick
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getAuthor() === $this) {
-                $comment->setAuthor(null);
+            if ($comment->getTrick() === $this) {
+                $comment->setTrick(null);
             }
         }
 

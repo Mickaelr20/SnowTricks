@@ -1,0 +1,18 @@
+{% if comment.author.profilePictureFilename %}
+  {% set authorProfilePicture = '/uploads/profile_pictures/' ~ comment.author.profilePictureFilename %}
+{% else %}
+  {% set authorProfilePicture = '/images/empty_image.png' %}
+{% endif %}
+
+<li class="comment-element">
+  <img class="comment-avatar" src="{{ authorProfilePicture }}" alt="">
+  <div class="comment-box">
+    <div class="comment-head">
+      <h6 class="author-name"><a href="#">{{ comment.author.username }}</a></h6>
+      <span>{{ comment.created|format_datetime() }}</span>
+    </div>
+    <div class="comment-content">
+      {{ comment.content }}
+    </div>
+  </div>
+</li>

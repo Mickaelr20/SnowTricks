@@ -13,31 +13,23 @@ class Comment
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: trick::class, inversedBy: 'comments')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $author;
-
     #[ORM\Column(type: 'string', length: 255)]
     private $content;
 
     #[ORM\Column(type: 'datetime')]
     private $created;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $author;
+
+    #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $trick;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getAuthor(): ?trick
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?trick $author): self
-    {
-        $this->author = $author;
-
-        return $this;
     }
 
     public function getContent(): ?string
@@ -60,6 +52,30 @@ class Comment
     public function setCreated(\DateTimeInterface $created): self
     {
         $this->created = $created;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    public function getTrick(): ?Trick
+    {
+        return $this->trick;
+    }
+
+    public function setTrick(?Trick $trick): self
+    {
+        $this->trick = $trick;
 
         return $this;
     }

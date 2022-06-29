@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Trick;
+use App\Entity\Comment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,6 +20,7 @@ class CommentAddType extends AbstractType
     {
         $builder
             ->add('content', TextType::class, [
+                'label' => 'Commentaire',
                 'constraints' => [
                     new NotBlank(),
                     new Length(['max' => 255])
@@ -30,7 +31,7 @@ class CommentAddType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // 'data_class' => Trick::class
+            'data_class' => Comment::class
         ]);
     }
 }
