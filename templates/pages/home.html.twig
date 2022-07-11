@@ -32,11 +32,11 @@
         {% include 'Elements/trick/display_card.html.twig' with {'trick': trick} %}
       {% endfor %}
     </div>
-    <div class="position-relative px-3 pb-3 d-flex justify-content-center align-items-center">
-      <button type="button" class="fw-bold btn btn-outline-secondary">
+    <div id="load_more_buttons" class="position-relative px-3 pb-3 d-flex justify-content-center align-items-center">
+      <button type="button" class="fw-bold btn btn-outline-secondary load-more">
         Charger plus
       </button>
-      <button type="button" disabled=true class="fw-bold btn btn-outline-secondary d-none">
+      <button type="button" disabled=true class="fw-bold btn btn-outline-secondary d-none loading-more">
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         Chargement ...
       </button>
@@ -46,5 +46,5 @@
 {% endblock %}
 
 {% block javascripts_top %}
-
+  <script src="/scripts/home_load_more.js"></script>
 {% endblock %}

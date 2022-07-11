@@ -136,4 +136,14 @@ class TrickController extends AbstractController
             'comments' => $trick->getComments()
         ]);
     }
+
+
+    #[Route('/trick/load_more/{page}', name: 'app_trick_load_more')]
+    public function load_more(int $page, TrickRepository $trickRepository): Response
+    {
+        $tricks = $trickRepository->listPage($page, 2);
+        return $this->render('Elements/trick/display_cards.html.twig', [
+            'tricks' => $tricks
+        ]);
+    }
 }
