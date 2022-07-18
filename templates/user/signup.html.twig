@@ -1,22 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-	<div class="h-100 d-flex">
-		<div class="m-auto p-3 p-sm-0">
-			<div class="card">
-				<div class="card-header">
-					S'inscrire
-				</div>
-				<div class="card-body">
-					{{ form_start(form) }}
-					{{form_rest(form)}}
+	<div class="m-auto p-3 p-sm-0">
+		<div class="card">
+			<div class="card-header">
+				S'inscrire
+			</div>
+			<div class="card-body">
+				{{ form_start(form) }}
+				{{form_rest(form)}}
 
-					<button class="btn btn-primary" type="submit">S'inscrire</button>
-					{{ form_end(form) }}
-				</div>
+				<button class="btn btn-primary" type="submit">S'inscrire</button>
+				{{ form_end(form) }}
 			</div>
 		</div>
-
 	</div>
 {% endblock %}
 
