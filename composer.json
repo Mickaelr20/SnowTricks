@@ -16,7 +16,6 @@
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/asset": "6.1.*",
         "symfony/console": "*",
-        "symfony/doctrine-messenger": "6.1.*",
         "symfony/dotenv": "*",
         "symfony/expression-language": "6.1.*",
         "symfony/flex": "^2",

@@ -13,7 +13,11 @@ use App\Entity\User;
 use App\Form\UserSignupType;
 use App\Form\UserSettingsType;
 use App\Form\UserPasswordType;
+use App\Form\ForgotPasswordType;
+use App\Form\ResetPasswordType;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class UserController extends AbstractController
 {
@@ -130,5 +134,103 @@ class UserController extends AbstractController
             'password_form' => $passwordForm,
             'active_tab' => $activeTab
         ]);
+    }
+
+    #[Route('/forgot_password', name: 'app_user_forgot_password', methods: ["GET", "POST"])]
+    public function forgot_password(Request $request, UserRepository $repo, MailerInterface $mailer): Response
+    {
+        $user = new User();
+
+        $form = $this->createForm(ForgotPasswordType::class, $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $repo->getFromEmail($user->getEmail());
+            
+            if (!empty($user)) {
+                $token = $this->generateToken();
+
+                $user->setResetPasswordToken($token);
+                $user->setResetPasswordCreated(new \Datetime());
+                $user->setResetPasswordExpire((new \Datetime())->add(new \DateInterval('P1D')));
+                $repo->add($user, true);
+
+                $email = (new TemplatedEmail())
+                ->from('noreply@snowtricks.com')
+                ->to($user->getEmail())
+                ->subject('Récupération du compte')
+                ->htmlTemplate('email/user/forgot_password.html.twig')
+                ->context([
+                    "user" => $user,
+                    "token" => $token
+                ]);
+
+                $mailer->send($email);
+            }
+
+            $this->addFlash('success', "Demande récupération envoyé !\nSi votre adresse email est présente dans notre base, nous vous enverrons un lien de récupération sur celle - ci");
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->renderForm('forgot_password.html.twig', [
+            'form' => $form,
+            'page_title' => 'Mot de passe oublié'
+        ]);
+    }
+
+    #[Route('/reset_password/{resetPasswordToken}', name: 'app_user_reset_password', methods: ["GET", "POST"])]
+    public function reset_password(User $user, Request $request, UserRepository $repo, UserPasswordHasherInterface $passwordHasher, MailerInterface $mailer): Response
+    {
+        $now_date = new \Datetime();
+        if($now_date > $user->getResetPasswordExpire()){
+            throw new \Exception("Lien expiré");
+        }
+
+        $form = $this->createForm(ResetPasswordType::class, $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newPasswordFirst = $form->get("password")->get('first')->getData();
+            $newHashedPassword = $passwordHasher->hashPassword($user, $newPasswordFirst);
+            $user->setPassword($newHashedPassword);
+
+            $user->setResetPasswordToken(null);
+            $user->setResetPasswordCreated(null);
+            $user->setResetPasswordExpire(null);
+
+            $repo->add($user, true);
+
+            //TODO envoyé notification mot de passe modifié
+            $email = (new TemplatedEmail())
+                ->from('noreply@snowtricks.com')
+                ->to($user->getEmail())
+                ->subject('Récupération du compte')
+                ->htmlTemplate('email/user/password_reset.html.twig')
+                ->context([
+                    "user" => $user
+                ]);
+
+            $mailer->send($email);
+
+            $this->addFlash('success', "Mot de passe modifié !");
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->renderForm('reset_password.html.twig', [
+            'form' => $form,
+            'page_title' => 'Récupération du compte'
+        ]);
+    }
+
+    private function generateToken($tokenLength = 100)
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        $charactersLength = strlen($characters);
+        $token = '';
+        for ($i = 0; $i < $tokenLength; $i++) {
+            $token .= $characters[rand(0, $charactersLength - 1)];
+        }
+
+        return $token;
     }
 }

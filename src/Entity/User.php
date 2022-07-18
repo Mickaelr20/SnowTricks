@@ -32,6 +32,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class, orphanRemoval: true)]
     private $comments;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $resetPasswordToken;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $resetPasswordCreated;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $resetPasswordExpire;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -146,6 +155,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getResetPasswordToken(): ?string
+    {
+        return $this->resetPasswordToken;
+    }
+
+    public function setResetPasswordToken(?string $resetPasswordToken): self
+    {
+        $this->resetPasswordToken = $resetPasswordToken;
+
+        return $this;
+    }
+
+    public function getResetPasswordCreated(): ?\DateTimeInterface
+    {
+        return $this->resetPasswordCreated;
+    }
+
+    public function setResetPasswordCreated(?\DateTimeInterface $resetPasswordCreated): self
+    {
+        $this->resetPasswordCreated = $resetPasswordCreated;
+
+        return $this;
+    }
+
+    public function getResetPasswordExpire(): ?\DateTimeInterface
+    {
+        return $this->resetPasswordExpire;
+    }
+
+    public function setResetPasswordExpire(?\DateTimeInterface $resetPasswordExpire): self
+    {
+        $this->resetPasswordExpire = $resetPasswordExpire;
 
         return $this;
     }

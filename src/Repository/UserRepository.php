@@ -67,4 +67,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /**
+     * @return User Returns a user with the email in param or null
+     */
+    public function getFromEmail($email): User|null
+    {
+        return $this->createQueryBuilder('users')
+        ->andWhere('users.email = :email')
+        ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
