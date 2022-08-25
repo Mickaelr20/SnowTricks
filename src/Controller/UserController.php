@@ -21,6 +21,9 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class UserController extends AbstractController
 {
+
+    
+
     #[Route('/signup', name: 'app_signup', methods: ["GET", "POST"])]
     public function signup(Request $request, UserRepository $repo, UserPasswordHasherInterface $passwordHasher): Response
     {
@@ -200,7 +203,6 @@ class UserController extends AbstractController
 
             $repo->add($user, true);
 
-            //TODO envoyé notification mot de passe modifié
             $email = (new TemplatedEmail())
                 ->from('noreply@snowtricks.com')
                 ->to($user->getEmail())

@@ -13,35 +13,45 @@ class Trick
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $category;
+    private string $category;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $description;
+    private string $description;
 
     #[ORM\Column(type: 'datetime')]
-    private $created;
+    private \DateTime $created;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $modified;
+    private \DateTime $modified;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $thumbnailFilename;
+    private string $thumbnailFilename;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $slug;
+    private string $slug;
 
+    /**
+     * @var Collection<int, Comment>
+     */
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true, cascade: ['persist'])]
-    private $comments;
+    private Collection $comments;
+
+    /**
+     * @var Collection<int, Video>
+     */
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade: ['persist'])]
+    private Collection $videos;
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -157,6 +167,36 @@ class Trick
             // set the owning side to null (unless already changed)
             if ($comment->getTrick() === $this) {
                 $comment->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Video>
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->removeElement($video)) {
+            // set the owning side to null (unless already changed)
+            if ($video->getTrick() === $this) {
+                $video->setTrick(null);
             }
         }
 

@@ -3,7 +3,7 @@
         <div class="position-absolute top-0 end-0">
             {% for label, messages in flashes %}
                 {% for message in messages %}
-                    <div class="alert alert-{{label}} alert-dismissible fade show m-3" role="alert">
+                    <div class="alert alert-{{label}} alert-dismissible fade show m-3" role="alert" style="z-index: 2;">
                     {{ message|nl2br }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>

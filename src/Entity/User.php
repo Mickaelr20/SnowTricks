@@ -15,31 +15,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string')]
-    private $username;
+    private string $username;
 
     #[ORM\Column(type: 'string')]
-    private $email;
+    private string $email;
 
     #[ORM\Column(type: 'string')]
-    private $password;
+    private string $password;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $profilePictureFilename;
+    private string $profilePictureFilename;
 
+    /**
+     * @var Collection<int, Comment>
+     */
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class, orphanRemoval: true)]
-    private $comments;
+    private Collection $comments;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $resetPasswordToken;
+    private ?string $resetPasswordToken = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $resetPasswordCreated;
+    private ?string $resetPasswordCreated = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $resetPasswordExpire;
+    private ?string $resetPasswordExpire = null;
 
     public function __construct()
     {

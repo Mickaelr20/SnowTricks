@@ -1,5 +1,4 @@
 .header {
-  z-index: -1;
   position: relative;
   max-height: calc(100vh / 1.75);
   min-height: calc(100vh / 2);
@@ -23,7 +22,4 @@
   box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
   z-index: 1;
   font-size: 2rem;
-}
-
-.header .action_button {
 }

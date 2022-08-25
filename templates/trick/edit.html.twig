@@ -12,6 +12,8 @@
 
   <div class="container">
     {{ form_start(form, {"attr": {"class": "d-flex flex-column py-3"}}) }}
+    {{ form_widget(form._token) }}
+
     <div class="row">
       <div class="col-12">
         <div class="file-uploader">
@@ -22,7 +24,6 @@
         </div>
       </div>
 
-
       <div class="col-12 col-md-6">
         {{ form_row(form.name) }}
       </div>
@@ -32,21 +33,33 @@
       <div class="col-12">
         {{ form_row(form.slug) }}
       </div>
-      {{ form_row(form.description) }}
+      <div class="col-12">
+        {{ form_row(form.description) }}
+      </div>
+      <div class="col-12 d-flex flex-column">
+        <div class="mb-4 d-flex">
+          <button type="button" id="addVideo" class="ms-auto btn btn-primary" type="submit">Ajouter vidéo</button>
+        </div>
+        <div id="trick_edit_videos" class="row" data-prototype="{{ include("Elements/video/display_card.html.twig", {form: form.videos.vars.prototype})|e("html_attr") }}">
+          {% for video in form.videos %}
+            {{ include("Elements/video/display_card.html.twig", {form: video}) }}
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-12 mb-4 d-flex">
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#TrickDeleteModal_{{ trick.id }}">
+          Supprimer le trick
+        </button>
+        <button class="ms-auto btn btn-primary" type="submit">Enregistrer</button>
+      </div>
     </div>
-    <div class="d-flex">
-      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#TrickDeleteModal_{{ trick.id }}">
-        Supprimer le trick
-      </button>
-      <button class="ms-auto btn btn-primary" type="submit">Enregistrer</button>
-    </div>
-
-    {{ form_end(form) }}
+    {{ form_end(form, {render_rest: false}) }}
   </div>
 {% endblock %}
 
 {% block stylesheets_bottom %}
   <link rel="stylesheet" href="/styles/file_uploader.css">
+  <link rel="stylesheet" href="/styles/trick_edit.css">
 {% endblock %}
 
 {% block javascripts_bottom %}
