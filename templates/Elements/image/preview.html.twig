@@ -1,0 +1,16 @@
+{% if preview_url != '' %}
+  <iframe src="{{ preview_url }}"
+    class="trick-edit-preview"
+    title="{{ frame_title }}"
+    width="100%"
+    height="200px"
+    frameborder="0"
+    allow="{{ frame_allow }}"
+    allowfullscreen></iframe>
+{% else %}
+  <img src="/images/empty_image.png"
+    class="empty-trick-edit-preview"
+    title="preview video player"
+    width="100%"
+    height="200px" />
+{% endif %}
