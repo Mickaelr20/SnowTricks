@@ -1,5 +1,5 @@
 var page = 1;
-var pageLength = 2;
+var pageLength = 6;
 
 $(function () {
     $("#load_more_buttons .load-more").on('click', function () {
