@@ -3,13 +3,15 @@
 {% block content %}
   <div class="container">
     {{ form_start(form, {"attr": {"class": "d-flex flex-column py-3"}}) }}
+    {{ form_widget(form._token) }}
+
     <div class="row">
       <div class="col-12">
-        <div class="file-uploader">
+        <div class="file-uploader" id="formThumnbail">
             {{ form_label(form.thumbnail, null, {"label_attr": {"class": "uploader-label"}}) }}
             {{ form_widget(form.thumbnail, {"attr": {"class": "d-none"}}) }}
-            <img class="thumbnail-preview" alt="Thumbnail preview">
-            <label class="form-label thumbnail-path uploader-label">Cliquer pour ajouter une image</label>
+            <img class="thumbnail-preview" src="/images/empty_image.png" alt="Thumbnail preview">
+            <label class="thumbnail-path form-label uploader-label">Cliquer pour modifier l'image</label>
         </div>
       </div>
 
@@ -32,9 +34,10 @@
 
 {% block stylesheets_bottom %}
   <link rel="stylesheet" href="/styles/file_uploader.css">
+  <link rel="stylesheet" href="/styles/trick_edit.css">
 {% endblock %}
 
 {% block javascripts_bottom %}
-  <script src="/scripts/file_uploader.js"></script>
-  <script src="/scripts/tricks.js"></script>
+		<script src="/scripts/file_uploader.js"></script>
+    <script src="/scripts/tricks.js"></script>
 {% endblock %}
