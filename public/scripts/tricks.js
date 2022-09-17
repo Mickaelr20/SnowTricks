@@ -59,27 +59,4 @@ $(function () {
     $(".video-remove").click(function () {
         removeVideo($(this));
     });
-
-    $(".video-card .video-preview").each(function () {
-        let div = $(this);
-        let url_input = div.parent().find('.card-body [id$="_link"]');
-        let url = url_input.val();
-        var encoded_url = encodeURIComponent(url);
-
-        url_input.change(function () {
-            displayVideoPreview($(this));
-        });
-
-        $.ajax({
-            url: "/trick/video_preview",
-            data: {
-                url: encoded_url
-            },
-            type: "GET",
-            success: function (data) {
-                console.log(div);
-                div.html(data);
-            }
-        });
-    });
 });

@@ -1,0 +1,28 @@
+<div class="item">
+    <i class="carousel-icon bg-secondary text-white rounded px-2 bi bi-play-btn"></i>
+    {# Si une thumbnail alors afficher sinon afficher l'iframe #}
+    {% if (video.virtual.thumbnail_url is null) %}
+        <iframe
+          src="{{video.virtual.preview_url}}?transparent=0"
+          class="trick-edit-preview"
+          title="{{video.virtual.frame_title}}"
+          allow="{{video.virtual.frame_allow}}"
+          allowfullscreen=""
+          width="100%"
+          height="100%"
+          frameborder="0">
+        </iframe>
+    {% else %}
+        <img src="{{video.virtual.thumbnail_url}}" alt="{{video.title}}" class="carousel-image">
+    {% endif %}
+    {% if (video.virtual.domain == 'vimeo.com') %}
+        {% set suppClass = "link-vimeo" %}
+    {% else %}
+        {% set suppClass = "" %}
+    {% endif %}
+
+    <a class="carousel-link {{suppClass}}" href="#VideoModal-{{video.id}}"
+        data-bs-toggle="modal" data-bs-target="#VideoModal-{{video.id}}">
+        {{video.title}}
+    </a>
+</div>

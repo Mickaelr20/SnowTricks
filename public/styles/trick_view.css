@@ -23,3 +23,49 @@
   z-index: 1;
   font-size: 2rem;
 }
+
+.modal-dialog.modal-fs {
+  max-width: 1500px;
+  padding: 0 1rem;
+  max-height: 90vh;
+}
+
+/* OWL CAROUSEL CSS */
+.owl-item .item {
+  margin: 0.3rem;
+  border-radius: 0.3rem;
+  overflow: hidden;
+}
+
+.owl-item .item {
+  margin: 0.3rem;
+  border-radius: 0.3rem;
+  overflow: hidden;
+}
+
+.owl-item .item .carousel-icon {
+  position: absolute;
+  right: 0;
+  margin: 0.25rem 0.5rem;
+  display: flex;
+  padding: 0.3rem 0.8rem;
+}
+
+.owl-item .item .carousel-image {
+  height: 150px;
+  object-fit: cover;
+}
+
+.owl-item .item a.carousel-link {
+  text-align: center;
+  margin: 0;
+  background: #eaeaea;
+  padding: 0.25rem 0rem;
+  display: block;
+}
+
+.owl-item .item .carousel-link.link-vimeo {
+  position: relative;
+  top: -7px;
+  border-radius: 0 0 0.3rem 0.3rem;
+}

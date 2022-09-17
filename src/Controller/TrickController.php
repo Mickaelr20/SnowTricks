@@ -140,7 +140,7 @@ class TrickController extends AbstractController
     #[Route('/trick/load_more/{page}', name: 'app_trick_load_more')]
     public function load_more(int $page, TrickRepository $trickRepository): Response
     {
-        $tricks = $trickRepository->listPage($page, 2);
+        $tricks = $trickRepository->listPage($page, 6);
         return $this->render('Elements/trick/display_cards.html.twig', [
             'tricks' => $tricks
         ]);
@@ -149,7 +149,6 @@ class TrickController extends AbstractController
     #[Route('/trick/video_preview', name: 'app_trick_video_preview')]
     public function video_preview(Request $request): Response
     {
-
         $preview_url = "";
         $frame_title = "";
         $frame_allow = "";
@@ -186,6 +185,11 @@ class TrickController extends AbstractController
             } else if (in_array($domain, ['vimeo.com'])) {
                 $preview_url = "https://player.vimeo.com/video/" . $url_arr['array_path'][0];
                 $frame_allow = "autoplay; fullscreen; picture-in-picture";
+            } else if (in_array($domain, ['dailymotion.com', 'dai.ly'])) {
+                // https://www.dailymotion.com/video/x8drdz2?playlist=x5nmbq
+                $preview_url = "https://www.dailymotion.com/embed/video/" . $url_arr['array_path'][1];
+                $frame_allow = "autoplay; fullscreen; picture-in-picture";
+                
             }
 
             $frame_title = "Video from " . $domain;

@@ -16,35 +16,60 @@
     <div class="header-title">
       {{ trick.name }}
     </div>
-    <div class="position-absolute end-0 top-0 m-2">
-      <a href="/trick/edit/{{ trick.slug }}"
-        title="Modifier le trick"
-        class="btn btn-sm btn-primary">
-        <i class="bi bi-pencil-fill"></i>
-      </a>
-      <a href="#"
-        title="Supprimer le trick"
-        title="Modifier le trick"
-        class="btn btn-sm btn-danger"
-        data-bs-toggle="modal"
-        data-bs-target="#TrickDeleteModal_{{ trick.id }}">
-        <i class="bi bi-trash-fill"></i>
-      </a>
-    </div>
+    {% if app.user %}
+      <div class="position-absolute end-0 top-0 m-2">
+        <a href="/trick/edit/{{ trick.slug }}"
+          title="Modifier le trick"
+          class="btn btn-sm btn-primary">
+          <i class="bi bi-pencil-fill"></i>
+        </a>
+        <a href="#"
+          title="Supprimer le trick"
+          title="Modifier le trick"
+          class="btn btn-sm btn-danger"
+          data-bs-toggle="modal"
+          data-bs-target="#TrickDeleteModal_{{ trick.id }}">
+          <i class="bi bi-trash-fill"></i>
+        </a>
+      </div>
+    {% endif %}
   </div>
 
-  <section class="px-3 mb-3"
-    style="height: 200px;background-color: grey;text-align: center;display: flex;">
-    <h2 style="margin: auto;">
-      Médias
-    </h2>
+  <section class="px-3 mb-3">
+    <div class="owl-carousel owl-theme">
+      {% for image in trick.images %}
+        {% include 'Elements/image/display_carousel.html.twig' with {
+          image: image
+        } %}
+      {% endfor %}
+      {% for video in trick.videos %}
+        {% include 'Elements/video/display_carousel.html.twig' with {
+          video: video
+        } %}
+      {% endfor %}
+      
+    </div>
   </section>
 
+  <div class="d-flex flex-row">
+      {% for image in trick.images %}
+        {% include 'Elements/image/display_fullscreen.html.twig' with {
+          image: image
+        } %}
+      {% endfor %}
+
+      {% for video in trick.videos %}
+        {% include 'Elements/video/display_fullscreen.html.twig' with {
+          video: video
+        } %}
+      {% endfor %}
+  </div>
+  
   <section class="px-3 mb-3">
-    {{ trick.description|nl2br() }}
+    {{ trick.description|nl2br }}
   </section>
 
-  <section class="px-3 mb-3">
+  <section class="container mb-3">
     <div class="row">
       <div class="d-flex flex-row justify-content-center flex-wrap">
         <div class="rounded m-2 p-1 px-4 bg-light border">
@@ -53,11 +78,11 @@
         </div>
         <div class="rounded m-2 p-1 px-4 bg-light border">
           <b>Créé le</b><br />
-          {{ trick.created|format_datetime() }}
+          {{ trick.created|format_datetime }}
         </div>
         <div class="rounded m-2 p-1 px-4 bg-light border">
           <b>Modifié le</b><br />
-          {{ trick.modified|format_datetime() }}
+          {{ trick.modified|format_datetime }}
         </div>
       </div>
     </div>
@@ -81,13 +106,22 @@
   <div class="px-3 mb-3">
     <ul id="commentList" class="container">
       {% for comment in comments %}
-        {% include 'Elements/comment/display_card.html.twig' with {'comment': comment} %}
+        {% include 'Elements/comment/display_card.html.twig' with {
+          comment: comment
+        } %}
       {% endfor %}
-		</ul>
+    </ul>
   </div>
+{% endblock %}
+
+{% block javascripts_bottom %}
+  <script src="/scripts/trick_view.js"></script>
+  <script src="/vendors/OwlCarousel2-2.3.4/owl.carousel.min.js"></script>
 {% endblock %}
 
 {% block stylesheets_bottom %}
   <link rel="stylesheet" href="/styles/trick_view.css" />
   <link rel="stylesheet" href="/styles/comments.css" />
+  <link rel="stylesheet" href="/vendors/OwlCarousel2-2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="/vendors/OwlCarousel2-2.3.4/assets/owl.theme.default.min.css">
 {% endblock %}
