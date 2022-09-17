@@ -17,13 +17,30 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class TrickController extends AbstractController
 {
     #[Route('/trick/new', name: 'app_trick_new', methods: ["GET", "POST"])]
-    public function new(Request $request, TrickRepository $repo, SluggerInterface $slugger): Response
+    public function new(Request $request, TrickRepository $repo, SluggerInterface $slugger ): Response
     {
         $trick = new Trick();
         $form = $this->createForm(TrickEditType::class, $trick);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($trick->getImages() as $image) {
+                $thumbnailFile = $image->getImage();
+
+                if ($thumbnailFile) {
+                    $originalFilename = pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $thumbnailFile->guessExtension();
+
+                    $thumbnailFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+
+                    $image->setFilename($newFilename);
+                }
+            }
+
             $thumbnailFile = $form->get('thumbnail')->getData();
 
             if ($thumbnailFile) {
@@ -58,6 +75,23 @@ class TrickController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            foreach($trick->getImages() as $image) {
+                $thumbnailFile = $image->getImage();
+
+                if ($thumbnailFile) {
+                    $originalFilename = pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $thumbnailFile->guessExtension();
+
+                    $thumbnailFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+
+                    $image->setFilename($newFilename);
+                }
+            }
+
             $thumbnailFile = $form->get('thumbnail')->getData();
 
             if ($thumbnailFile) {

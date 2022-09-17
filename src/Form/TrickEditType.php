@@ -73,6 +73,14 @@ class TrickEditType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true
             ])
+            ->add('images', CollectionType::class, [
+                'label' => 'Images',
+                'entry_type' => ImageType::class,
+                'entry_options' => ['label' => false],
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true
+            ])
             ->add('description', TextareaType::class);
     }
 
