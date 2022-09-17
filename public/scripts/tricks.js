@@ -1,6 +1,9 @@
 var videoCollectionHolder = $("#trick_edit_videos");
 var videoIndex = videoCollectionHolder.find(".video-card").length
 
+var imageCollectionHolder = $("#trick_edit_images");
+var imageIndex = videoCollectionHolder.find(".image-card").length
+
 function addVideo() {
     let prototype = videoCollectionHolder.data("prototype");
     prototype = prepareVideoItem(prototype);
@@ -19,6 +22,27 @@ function removeVideo(button) {
 }
 
 function prepareVideoItem(item) {
+    let newItem = item.replace(/__name__/g, videoIndex);
+    videoIndex++;
+    return newItem;
+}
+
+function addImage() {
+    let prototype = imageCollectionHolder.data("prototype");
+    prototype = prepareImageItem(prototype);
+    let element = $(prototype);
+    element.find(".image-remove").click(function () {
+        removeImage($(this));
+    });
+    imageCollectionHolder.append(element);
+    initUploader(element);
+}
+
+function removeImage(button) {
+    $(button).closest(".image-card").remove();
+}
+
+function prepareImageItem(item) {
     let newItem = item.replace(/__name__/g, videoIndex);
     videoIndex++;
     return newItem;
@@ -43,6 +67,12 @@ function displayVideoPreview(url_input) {
 }
 
 $(function () {
+    initUploader($("#formThumnbail"));
+
+    $(".image-card .image-preview").each(function () {
+        initUploader($(this));
+    });
+
     $("#trick_edit_name").on("keyup change  ", function () {
         let generatedSlug = $(this).val()
             .toLowerCase()
@@ -55,6 +85,7 @@ $(function () {
     });
 
     $("#addVideo").click(addVideo);
+    $("#addImage").click(addImage);
 
     $(".video-remove").click(function () {
         removeVideo($(this));

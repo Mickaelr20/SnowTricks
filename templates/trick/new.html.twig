@@ -24,11 +24,36 @@
       <div class="col-12">
         {{ form_row(form.slug) }}
       </div>
-      {{ form_row(form.description) }}
+      <div class="col-12">
+        {{ form_row(form.description) }}
+      </div>
+      <div class="col-12 d-flex flex-column">
+        <div class="mb-4 d-flex">
+          <h3>Vidéos</h3>
+          <button type="button" id="addVideo" class="ms-auto btn btn-primary" type="submit">Ajouter vidéo</button>
+        </div>
+        <div id="trick_edit_videos" class="row" data-prototype="{{ include("Elements/video/display_card.html.twig", {form: form.videos.vars.prototype})|e("html_attr") }}">
+          {% for video in form.videos %}
+            {{ include("Elements/video/display_card.html.twig", {form: video}) }}
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-12 d-flex flex-column">
+        <div class="mb-4 d-flex">
+          <h3>Images</h3>
+          <button type="button" id="addImage" class="ms-auto btn btn-primary" type="submit">Ajouter une image</button>
+        </div>
+        <div id="trick_edit_images" class="row" data-prototype="{{ include("Elements/image/display_card.html.twig", {form: form.images.vars.prototype})|e("html_attr") }}">
+          {% for image in form.images %}
+            {{ include("Elements/image/display_card.html.twig", {form: image}) }}
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-12 mb-4 d-flex">
+        <button class="ms-auto btn btn-primary" type="submit">Enregistrer</button>
+      </div>
     </div>
-    <button class="ms-auto btn btn-primary" type="submit">Enregistrer</button>
-
-    {{ form_end(form) }}
+    {{ form_end(form, {render_rest: false}) }}
   </div>
 {% endblock %}
 

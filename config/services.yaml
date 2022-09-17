@@ -6,6 +6,8 @@
 parameters:
     thumbnails_directory: '%kernel.project_dir%/public/uploads/thumbnails'
     profile_pictures_directory: '%kernel.project_dir%/public/uploads/profile_pictures'
+    images_directory: '%kernel.project_dir%/public/uploads/images'
+
 services:
     # default configuration for services in *this* file
     _defaults:
