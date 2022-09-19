@@ -3,7 +3,7 @@
 {% if trick.thumbnailFilename %}
   {% set filenameFullPath = '/uploads/thumbnails/' ~ trick.thumbnailFilename %}
 {% else %}
-  {% set filenameFullPath = '/images/empty_image.png' %}
+  {% set filenameFullPath = asset('build/images/empty_image.png') %}
 {% endif %}
 
 {% block content %}
@@ -115,13 +115,9 @@
 {% endblock %}
 
 {% block javascripts_bottom %}
-  <script src="/scripts/trick_view.js"></script>
-  <script src="/vendors/OwlCarousel2-2.3.4/owl.carousel.min.js"></script>
+  {{ encore_entry_script_tags('trick_view') }}
 {% endblock %}
 
 {% block stylesheets_bottom %}
-  <link rel="stylesheet" href="/styles/trick_view.css" />
-  <link rel="stylesheet" href="/styles/comments.css" />
-  <link rel="stylesheet" href="/vendors/OwlCarousel2-2.3.4/assets/owl.carousel.min.css">
-  <link rel="stylesheet" href="/vendors/OwlCarousel2-2.3.4/assets/owl.theme.default.min.css">
+  {{ encore_entry_link_tags('trick_view') }}
 {% endblock %}

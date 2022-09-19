@@ -2,7 +2,7 @@
   <div class="card mb-4">
     <div class="video-preview">
       {% if form.vars.data is null %}
-        <img src="/images/empty_image.png"
+        <img src="{{ asset('build/images/empty_image.png') }}"
           class="empty-trick-edit-preview"
           title="preview video player"
           width="100%"

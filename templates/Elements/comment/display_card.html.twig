@@ -1,7 +1,7 @@
 {% if comment.author.profilePictureFilename %}
   {% set authorProfilePicture = '/uploads/profile_pictures/' ~ comment.author.profilePictureFilename %}
 {% else %}
-  {% set authorProfilePicture = '/images/empty_image.png' %}
+  {% set authorProfilePicture = asset('build/images/empty_image.png') %}
 {% endif %}
 
 <li class="comment-element">
