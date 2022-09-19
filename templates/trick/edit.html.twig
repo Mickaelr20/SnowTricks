@@ -4,7 +4,7 @@
 {% if trick.thumbnailFilename %}
   {% set filenameFullPath = '/uploads/thumbnails/' ~ trick.thumbnailFilename %}
 {% else %}
-  {% set filenameFullPath = '/images/empty_image.png' %}
+  {% set filenameFullPath = asset('build/images/empty_image.png') %}
 {% endif %}
 
 {% block content %}
@@ -70,11 +70,11 @@
 {% endblock %}
 
 {% block stylesheets_bottom %}
-  <link rel="stylesheet" href="/styles/file_uploader.css">
-  <link rel="stylesheet" href="/styles/trick_edit.css">
+  {{ encore_entry_link_tags('file_uploader') }}
+  {{ encore_entry_link_tags('trick_edit') }}
 {% endblock %}
 
 {% block javascripts_bottom %}
-		<script src="/scripts/file_uploader.js"></script>
-    <script src="/scripts/tricks.js"></script>
+  {{ encore_entry_script_tags('file_uploader') }}
+  {{ encore_entry_script_tags('trick_edit') }}
 {% endblock %}

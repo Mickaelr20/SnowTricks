@@ -4,7 +4,7 @@
 {% if app.user.profilePictureFilename %}
   {% set filenameFullPath = '/uploads/profile_pictures/' ~ app.user.profilePictureFilename %}
 {% else %}
-  {% set filenameFullPath = '/images/empty_image.png' %}
+  {% set filenameFullPath = asset('build/images/empty_image.png') %}
 {% endif %}
 
 {% block content %}
@@ -44,16 +44,12 @@
     </div>
   </div>
 </div>
-
-
-
-
-{% endblock %}
-
-{% block stylesheets_bottom %}
-  <link rel="stylesheet" href="/styles/file_uploader.css">
 {% endblock %}
 
 {% block javascripts_bottom %}
-		<script src="/scripts/file_uploader.js"></script>
+  {{ encore_entry_script_tags('user_settings') }}
+{% endblock %}
+
+{% block stylesheets_bottom %}
+  {{ encore_entry_link_tags('user_settings') }}
 {% endblock %}

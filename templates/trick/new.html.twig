@@ -10,7 +10,7 @@
         <div class="file-uploader" id="formThumnbail">
             {{ form_label(form.thumbnail, null, {"label_attr": {"class": "uploader-label"}}) }}
             {{ form_widget(form.thumbnail, {"attr": {"class": "d-none"}}) }}
-            <img class="thumbnail-preview" src="/images/empty_image.png" alt="Thumbnail preview">
+            <img class="thumbnail-preview" src="{{ asset('build/images/empty_image.png') }}" alt="Thumbnail preview">
             <label class="thumbnail-path form-label uploader-label">Cliquer pour modifier l'image</label>
         </div>
       </div>
@@ -58,11 +58,11 @@
 {% endblock %}
 
 {% block stylesheets_bottom %}
-  <link rel="stylesheet" href="/styles/file_uploader.css">
-  <link rel="stylesheet" href="/styles/trick_edit.css">
+  {{ encore_entry_link_tags('file_uploader') }}
+  {{ encore_entry_link_tags('trick_edit') }}
 {% endblock %}
 
 {% block javascripts_bottom %}
-		<script src="/scripts/file_uploader.js"></script>
-    <script src="/scripts/tricks.js"></script>
+  {{ encore_entry_script_tags('file_uploader') }}
+  {{ encore_entry_script_tags('trick_edit') }}
 {% endblock %}

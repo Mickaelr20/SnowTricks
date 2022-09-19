@@ -1,0 +1,71 @@
+.header {
+  position: relative;
+  max-height: calc(100vh / 1.75);
+  min-height: calc(100vh / 2);
+  display: flex;
+}
+
+.header .header-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.header .header-title {
+  margin: auto;
+  background-color: #ffffff7b;
+  padding: 1rem 4rem;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+  z-index: 1;
+  font-size: 2rem;
+}
+
+.modal-dialog.modal-fs {
+  max-width: 1500px;
+  padding: 0 1rem;
+  max-height: 90vh;
+}
+
+/* OWL CAROUSEL CSS */
+.owl-item .item {
+  margin: 0.3rem;
+  border-radius: 0.3rem;
+  overflow: hidden;
+}
+
+.owl-item .item {
+  margin: 0.3rem;
+  border-radius: 0.3rem;
+  overflow: hidden;
+}
+
+.owl-item .item .carousel-icon {
+  position: absolute;
+  right: 0;
+  margin: 0.25rem 0.5rem;
+  display: flex;
+  padding: 0.3rem 0.8rem;
+}
+
+.owl-item .item .carousel-image {
+  height: 150px;
+  object-fit: cover;
+}
+
+.owl-item .item a.carousel-link {
+  text-align: center;
+  margin: 0;
+  background: #eaeaea;
+  padding: 0.25rem 0rem;
+  display: block;
+}
+
+.owl-item .item .carousel-link.link-vimeo {
+  position: relative;
+  top: -7px;
+  border-radius: 0 0 0.3rem 0.3rem;
+}
