@@ -8,13 +8,6 @@
 {% endblock %}
 
 {% block content %}
-  {% if app.user %}
-    <!-- Modaux de suppression des tricks -->
-    {% for trick in tricks %}
-      {% include 'Elements/trick/delete_modal.html.twig' with {'trick': trick} %}
-    {% endfor %}
-  {% endif %}
-
   <div class="container-fluid p-0">
   <!-- Background designed by Freepik -->
     <div class="header">

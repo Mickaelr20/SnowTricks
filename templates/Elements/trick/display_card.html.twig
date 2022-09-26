@@ -27,3 +27,8 @@
     </div>
   </div>
 </div>
+
+{% if app.user %}
+  <!-- Modaux de suppression des tricks -->
+  {% include 'Elements/trick/delete_modal.html.twig' with {'trick': trick} %}
+{% endif %}
