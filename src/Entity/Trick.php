@@ -16,9 +16,6 @@ class Trick
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private string $category;
-
-    #[ORM\Column(type: 'string', length: 255)]
     private string $name;
 
     #[ORM\Column(type: 'text', nullable: true)]
@@ -54,6 +51,9 @@ class Trick
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $images;
 
+    #[ORM\ManyToOne(inversedBy: 'tricks')]
+    private ?TrickCategory $category = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -64,18 +64,6 @@ class Trick
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): self
-    {
-        $this->category = $category;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -236,6 +224,18 @@ class Trick
                 $image->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?TrickCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?TrickCategory $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

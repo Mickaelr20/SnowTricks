@@ -162,7 +162,6 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('app_trick_view', ['slug' => $trick->getSlug()]);
         }
 
-
         return $this->renderForm('trick/view.html.twig', [
             'form_comment' => $formComment,
             'trick' => $trick,

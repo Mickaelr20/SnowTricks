@@ -3,11 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Trick;
+use App\Entity\TrickCategory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -50,20 +51,10 @@ class TrickEditType extends AbstractType
                     new Length(['max' => 255])
                 ]
             ])
-            ->add('category', ChoiceType::class, [
-                'constraints' => [
-                    new NotBlank()
-                ],
-                'choices' => [
-                    '---' => '',
-                    'Grab' => 'grab',
-                    'Rotation' => 'rotation',
-                    'Flip' => 'flip',
-                    'Rotation désaxée' => 'misaligned_rotation',
-                    'Slide' => 'slide',
-                    'One foot' => 'one_foot',
-                    'Old school' => 'old_school'
-                ]
+            ->add('category', EntityType::class, [
+                'class' => TrickCategory::class,
+                'choice_label' => 'name',
+                'label' => 'Catégorie'
             ])
             ->add('videos', CollectionType::class, [
                 'label' => 'Videos',
