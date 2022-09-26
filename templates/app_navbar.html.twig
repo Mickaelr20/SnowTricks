@@ -1,28 +1,11 @@
 {% set route_name = app.request.attributes.get('_route') %}
-<nav class="navbar navbar-expand-sm navbar-light bg-light">
+{# <nav class="navbar navbar-expand-sm navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      <img src="{{ asset('build/images/logo.svg') }}"
-        alt="logo snowtricks"
-        height="30" />
-    </a>
-    <button class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarScroll"
-      aria-controls="navbarScroll"
-      aria-expanded="false"
-      aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+
+
     <div class="collapse navbar-collapse" id="navbarScroll">
-      <ul class="navbar-nav ms-auto my-2 my-sm-0 navbar-nav-scroll text-center">
-        <li class="nav-item">
-          <a class="nav-link py-0{% if route_name == "app_home" %} active{% endif %}" href="{{ path('app_home') }}">Accueil</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link py-0{% if route_name starts with "app_trick" %} active{% endif %}" href="{{ path('app_trick_new') }}">Tricks</a>
-        </li>
+      <ul class="navbar-nav my-2 my-sm-0 navbar-nav-scroll text-center">
+
         {% if app.user %}
             <li class="nav-item">
                 <a class="nav-link py-0{% if route_name == "app_logout" %} active{% endif %}" href="{{ path('app_logout') }}">Se déconnecter</a>
@@ -35,6 +18,86 @@
                 <a class="nav-link py-0{% if route_name == "app_signup" %} active{% endif %}"  href="{{ path('app_signup') }}">S'inscrire</a>
             </li>
         {% endif %}
+        <li class="ms-sm-auto nav-item">
+          <a class="nav-link py-0{% if route_name starts with "app_trick" %} active{% endif %}" href="{{ path('app_trick_new') }}">Tricks</a>
+        </li>
+      </ul>
+    </div>
+    <ul class="navbar-nav my-2 my-sm-0 navbar-nav-scroll text-center">
+      <div class="dropdown text-end">
+
+        
+      </div>
+    </ul>
+  </div>
+</nav> #}
+
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="{{ asset('build/images/logo.svg') }}"
+        alt="logo snowtricks"
+        height="30" />
+    </a>
+
+    <button class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarScroll"
+      aria-controls="navbarScroll"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse collapse show" id="navbarScroll" style="">
+      <ul class="w-100 navbar-nav my-2 my-sm-0 navbar-nav-scroll text-center">
+        <li class="nav-item">
+          <a class="nav-link py-0{% if route_name == "app_home" %} active{% endif %}" href="{{ path('app_home') }}">Accueil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-0{% if route_name starts with "app_trick" %} active{% endif %}" href="{{ path('app_trick_new') }}">Nouveau trick</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-0" href="#tricks">Les tricks</a>
+        </li>
+        <li class="ms-sm-auto my-2 my-sm-0 nav-item dropdown">
+          <a class="d-block link-dark text-decoration-none dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {% if app.user %}
+              <img src="/uploads/profile_pictures/{{ app.user.profilePictureFilename }}" alt="photo de profile">
+            {% else %}
+              <i class="bi bi-person-circle h3"></i> 
+            {% endif %}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end text-small" aria-labelledby="navbarDarkDropdownMenuLink">
+            {% if app.user %}
+              <li>
+                <a class="dropdown-item{% if route_name == "app_logout" %} active{% endif %}" href="{{ path('app_user_settings') }}">Mon compte</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                  <a class="dropdown-item{% if route_name == "app_logout" %} active{% endif %}" href="{{ path('app_logout') }}">Se déconnecter</a>
+              </li>
+            {% else %}
+              <li>
+                  <a class="dropdown-item{% if route_name == "app_login" %} active{% endif %}" href="{{ path('app_login') }}">Se connecter</a>
+              </li>
+              <li>
+                  <a class="dropdown-item{% if route_name == "app_signup" %} active{% endif %}"  href="{{ path('app_signup') }}">S'inscrire</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item{% if route_name == "app_user_forgot_password" %} active{% endif %}" href="{{ path('app_user_forgot_password') }}">
+                  Mot de passe oublié
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </li>
       </ul>
     </div>
   </div>

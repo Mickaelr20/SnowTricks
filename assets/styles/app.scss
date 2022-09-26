@@ -9,6 +9,8 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
-.navbar-nav .nav-item:not(:last-child) {
-    border-right: 1px solid #707071;
+@media (min-width: 576px) {
+    .navbar-nav .nav-item:not(:first-child):not(.dropdown) {
+        border-left: 1px solid #707071;
+    }
 }
