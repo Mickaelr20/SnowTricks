@@ -10,14 +10,14 @@ final class FileUploader implements FileUploaderInterface
     {
     }
 
-    public function __invoke(UploadableInterface $uploadable, UploadedFile $thumbnailFile, String $target_directory): void
+    public function __invoke(UploadableInterface $uploadable, ?UploadedFile $uploadedFile, String $target_directory): void
     {
-        if ($thumbnailFile) {
-            $originalFilename = pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME);
+        if (!empty($uploadedFile)) {
+            $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $this->slugger->slug($originalFilename);
-            $newFilename = $safeFilename . '-' . uniqid() . '.' . $thumbnailFile->guessExtension();
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $uploadedFile->guessExtension();
 
-            $thumbnailFile->move(
+            $uploadedFile->move(
                 $target_directory,
                 $newFilename
             );
