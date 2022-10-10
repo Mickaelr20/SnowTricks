@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use App\FileUploader\UploadableInterface;
+
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
-class Image
+class Image implements UploadableInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

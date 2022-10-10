@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
+use App\FileUploader\UploadableInterface;
+
 use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
-class Trick
+class Trick implements UploadableInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -120,6 +122,13 @@ class Trick
     }
 
     public function setThumbnailFilename(string $thumbnailFilename): self
+    {
+        $this->thumbnailFilename = $thumbnailFilename;
+
+        return $this;
+    }
+
+    public function setFilename(string $thumbnailFilename): self
     {
         $this->thumbnailFilename = $thumbnailFilename;
 

@@ -13,51 +13,19 @@ use App\Entity\Comment;
 use App\Form\TrickEditType;
 use App\Form\CommentAddType;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use App\Trick\CreateTrickInterface;
 
 class TrickController extends AbstractController
 {
     #[Route('/trick/new', name: 'app_trick_new', methods: ["GET", "POST"])]
-    public function new(Request $request, TrickRepository $repo, SluggerInterface $slugger ): Response
+    public function new(Request $request, CreateTrickInterface $createTrick): Response
     {
         $trick = new Trick();
         $form = $this->createForm(TrickEditType::class, $trick);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($trick->getImages() as $image) {
-                $thumbnailFile = $image->getImage();
-
-                if ($thumbnailFile) {
-                    $originalFilename = pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $thumbnailFile->guessExtension();
-
-                    $thumbnailFile->move(
-                        $this->getParameter('images_directory'),
-                        $newFilename
-                    );
-
-                    $image->setFilename($newFilename);
-                }
-            }
-
-            $thumbnailFile = $form->get('thumbnail')->getData();
-
-            if ($thumbnailFile) {
-                $originalFilename = pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $thumbnailFile->guessExtension();
-
-                $thumbnailFile->move(
-                    $this->getParameter('thumbnails_directory'),
-                    $newFilename
-                );
-
-                $trick->setThumbnailFilename($newFilename);
-            }
-
-            $trick->setCreated(new \DateTime());
-            $repo->add($trick, true);
+            $createTrick($form->get('thumbnail')->getData(), $trick, $this->getParameter('images_directory'), $this->getParameter('thumbnails_directory'));
             $this->addFlash('success', "Trick ajouté");
             return $this->redirectToRoute('app_trick_edit', ['slug' => $trick->getSlug()]);
         }
@@ -75,7 +43,7 @@ class TrickController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach($trick->getImages() as $image) {
+            foreach ($trick->getImages() as $image) {
                 $thumbnailFile = $image->getImage();
 
                 if ($thumbnailFile) {
@@ -185,7 +153,7 @@ class TrickController extends AbstractController
         $preview_url = "";
         $frame_title = "";
         $frame_allow = "";
-        
+
         // Calcul des variables
         $url_arr = parse_url(urldecode($request->query->get("url")));
         if (!empty($url_arr['host'])) {
@@ -222,7 +190,6 @@ class TrickController extends AbstractController
                 // https://www.dailymotion.com/video/x8drdz2?playlist=x5nmbq
                 $preview_url = "https://www.dailymotion.com/embed/video/" . $url_arr['array_path'][1];
                 $frame_allow = "autoplay; fullscreen; picture-in-picture";
-                
             }
 
             $frame_title = "Video from " . $domain;
