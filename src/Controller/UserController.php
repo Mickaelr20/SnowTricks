@@ -18,6 +18,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use App\User\CreateUserInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
