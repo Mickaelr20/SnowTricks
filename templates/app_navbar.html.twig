@@ -51,7 +51,7 @@
     </button>
 
     <div class="navbar-collapse collapse show" id="navbarScroll" style="">
-      <ul class="w-100 navbar-nav my-2 my-sm-0 navbar-nav-scroll text-center">
+      <ul class="w-100 navbar-nav my-2 my-sm-0 navbar-nav-scroll text-center align-items-center">
         <li class="nav-item">
           <a class="nav-link py-0{% if route_name == "app_home" %} active{% endif %}" href="{{ path('app_home') }}">Accueil</a>
         </li>
@@ -64,7 +64,7 @@
         <li class="ms-sm-auto my-2 my-sm-0 nav-item dropdown">
           <a class="d-block link-dark text-decoration-none dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {% if app.user and app.user.profilePictureFilename %}
-              <img src="/uploads/profile_pictures/{{ app.user.profilePictureFilename }}" alt="photo de profile">
+              <img width="64px" src="/uploads/profile_pictures/{{ app.user.profilePictureFilename }}" alt="photo de profile">
             {% else %}
               <i class="bi bi-person-circle h3"></i> 
             {% endif %}
