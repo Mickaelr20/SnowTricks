@@ -7,14 +7,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\TrickRepository;
-use App\Repository\UserRepository;
 use App\Entity\Trick;
 use App\Entity\Comment;
 use App\Form\TrickEditType;
 use App\Form\CommentAddType;
-use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Trick\CreateTrickInterface;
 use App\Trick\EditTrickInterface;
+use App\Comment\CreateCommentInterface;
 
 class TrickController extends AbstractController
 {
@@ -72,18 +71,13 @@ class TrickController extends AbstractController
     }
 
     #[Route('/trick/view/{slug}', name: 'app_trick_view', methods: ["GET", "POST"])]
-    public function view(Trick $trick, Request $request, UserRepository $userRepo, TrickRepository $trickRepo): Response
+    public function view(Trick $trick, Request $request, CreateCommentInterface $createComment): Response
     {
         $comment = new Comment();
         $formComment = $this->createForm(CommentAddType::class, $comment);
         $formComment->handleRequest($request);
         if ($formComment->isSubmitted() && $formComment->isValid()) {
-            $username = $this->getUser()->getUserIdentifier();
-            $user = $userRepo->get($username);
-            $comment->setAuthor($user);
-            $comment->setCreated(new \DateTime());
-            $trick->addComment($comment);
-            $trickRepo->add($trick, true);
+            $createComment($comment, $trick);
             $this->addFlash('success', "Commentaire ajouté!");
             return $this->redirectToRoute('app_trick_view', ['slug' => $trick->getSlug()]);
         }
