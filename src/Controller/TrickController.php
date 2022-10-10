@@ -25,7 +25,7 @@ class TrickController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $createTrick($form->get('thumbnail')->getData(), $trick, $this->getParameter('images_directory'), $this->getParameter('thumbnails_directory'));
+            $createTrick($trick, $form->get('thumbnail')->getData());
             $this->addFlash('success', "Trick ajouté");
             return $this->redirectToRoute('app_trick_edit', ['slug' => $trick->getSlug()]);
         }

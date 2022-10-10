@@ -14,7 +14,7 @@ final class CreateTrick implements CreateTrickInterface
     {
     }
 
-    public function __invoke(UploadedFile $thumbnailFile, Trick $trick): void
+    public function __invoke(Trick $trick, UploadedFile $thumbnailFile): void
     {
         foreach ($trick->getImages() as $image) {
             $imageFile = $image->getImage();
