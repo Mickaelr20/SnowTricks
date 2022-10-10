@@ -21,7 +21,7 @@ final class CreateTrick implements CreateTrickInterface
             $this->uploader->__invoke($image, $imageFile, $this->imagesDir);
         }
 
-        if ($thumbnailFile) {
+        if (!empty($thumbnailFile)) {
             $this->uploader->__invoke($trick, $thumbnailFile, $this->thumbnailsDir);
         }
 
