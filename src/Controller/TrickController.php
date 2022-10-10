@@ -14,6 +14,7 @@ use App\Form\TrickEditType;
 use App\Form\CommentAddType;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Trick\CreateTrickInterface;
+use App\Trick\EditTrickInterface;
 
 class TrickController extends AbstractController
 {
@@ -37,56 +38,13 @@ class TrickController extends AbstractController
     }
 
     #[Route('/trick/edit/{slug}', name: 'app_trick_edit', methods: ["GET", "POST"])]
-    public function edit(Trick $trick, Request $request, TrickRepository $repo, SluggerInterface $slugger): Response
+    public function edit(Trick $trick, Request $request, EditTrickInterface $editTrick): Response
     {
         $form = $this->createForm(TrickEditType::class, $trick);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($trick->getImages() as $image) {
-                $thumbnailFile = $image->getImage();
-
-                if ($thumbnailFile) {
-                    $originalFilename = pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $thumbnailFile->guessExtension();
-
-                    $thumbnailFile->move(
-                        $this->getParameter('images_directory'),
-                        $newFilename
-                    );
-
-                    $image->setFilename($newFilename);
-                }
-            }
-
-            $thumbnailFile = $form->get('thumbnail')->getData();
-
-            if ($thumbnailFile) {
-                //Supprimer l'ancienne thumbnail si elle existe
-                $oldTrick = $repo->get($trick->getId());
-                if (!empty($oldTrick->getThumbnailFilename())) {
-                    $oldThumbnail = $this->getParameter('thumbnails_directory') . "/" . $oldTrick->getThumbnailFilename();
-
-                    if (file_exists($oldThumbnail) && is_file($oldThumbnail)) {
-                        unlink($oldThumbnail);
-                    }
-                }
-
-                $originalFilename = pathinfo($thumbnailFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $thumbnailFile->guessExtension();
-
-                $thumbnailFile->move(
-                    $this->getParameter('thumbnails_directory'),
-                    $newFilename
-                );
-
-                $trick->setThumbnailFilename($newFilename);
-            }
-
-            $trick->setModified(new \DateTime());
-            $repo->add($trick, true);
+            $editTrick($trick, $form->get('thumbnail')->getData());
             $this->addFlash('success', "Trick Modifié !");
             return $this->redirectToRoute('app_trick_edit', ['slug' => $trick->getSlug()]);
         }
