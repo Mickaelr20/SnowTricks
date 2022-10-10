@@ -63,7 +63,7 @@
         </li>
         <li class="ms-sm-auto my-2 my-sm-0 nav-item dropdown">
           <a class="d-block link-dark text-decoration-none dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {% if app.user %}
+            {% if app.user and app.user.profilePictureFilename %}
               <img src="/uploads/profile_pictures/{{ app.user.profilePictureFilename }}" alt="photo de profile">
             {% else %}
               <i class="bi bi-person-circle h3"></i> 
