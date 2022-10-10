@@ -8,7 +8,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UserRepository;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
 use App\Form\UserSignupType;
 use App\Form\UserSettingsType;
@@ -18,24 +17,19 @@ use App\Form\ResetPasswordType;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use App\User\CreateUserInterface;
 
 class UserController extends AbstractController
 {
-
-    
-
     #[Route('/signup', name: 'app_signup', methods: ["GET", "POST"])]
-    public function signup(Request $request, UserRepository $repo, UserPasswordHasherInterface $passwordHasher): Response
+    public function signup(Request $request, CreateUserInterface $createUser): Response
     {
         $user = new User();
-
         $form = $this->createForm(UserSignupType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
-            $user->setPassword($hashedPassword);
-            $repo->add($user, true);
+            $createUser($user);
             $this->addFlash('success', "Inscription effectuée !");
             return $this->redirectToRoute('app_home');
         }
@@ -149,7 +143,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $repo->getFromEmail($user->getEmail());
-            
+
             if (!empty($user)) {
                 $token = $this->generateToken();
 
@@ -159,14 +153,14 @@ class UserController extends AbstractController
                 $repo->add($user, true);
 
                 $email = (new TemplatedEmail())
-                ->from('noreply@snowtricks.com')
-                ->to($user->getEmail())
-                ->subject('Récupération du compte')
-                ->htmlTemplate('email/user/forgot_password.html.twig')
-                ->context([
-                    "user" => $user,
-                    "token" => $token
-                ]);
+                    ->from('noreply@snowtricks.com')
+                    ->to($user->getEmail())
+                    ->subject('Récupération du compte')
+                    ->htmlTemplate('email/user/forgot_password.html.twig')
+                    ->context([
+                        "user" => $user,
+                        "token" => $token
+                    ]);
 
                 $mailer->send($email);
             }
@@ -185,7 +179,7 @@ class UserController extends AbstractController
     public function reset_password(User $user, Request $request, UserRepository $repo, UserPasswordHasherInterface $passwordHasher, MailerInterface $mailer): Response
     {
         $now_date = new \Datetime();
-        if($now_date > $user->getResetPasswordExpire()){
+        if ($now_date > $user->getResetPasswordExpire()) {
             throw new \Exception("Lien expiré");
         }
 
