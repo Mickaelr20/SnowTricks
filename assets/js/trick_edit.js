@@ -35,7 +35,7 @@ function addImage() {
     let prototype = imageCollectionHolder.data("prototype");
     prototype = prepareImageItem(prototype);
     let element = $(prototype);
-    element.find(".image-remove").click(function () {
+    element.find(".image-remove").on('click', function () {
         removeImage($(this));
     });
     imageCollectionHolder.append(element);
@@ -93,5 +93,9 @@ $(function () {
 
     $(".video-remove").on('click', function () {
         removeVideo($(this));
+    });
+
+    $(".image-remove").on('click', function () {
+        removeImage($(this));
     });
 });
