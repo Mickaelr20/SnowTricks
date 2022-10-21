@@ -7,5 +7,5 @@ use App\Entity\Trick;
 
 interface CreateCommentInterface
 {
-    public function __invoke(Comment $comment, Trick $trick): void;
+	public function __invoke(Comment $comment, Trick $trick): void;
 }

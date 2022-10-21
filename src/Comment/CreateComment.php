@@ -10,17 +10,17 @@ use Symfony\Component\Security\Core\Security;
 
 final class CreateComment implements CreateCommentInterface
 {
-    public function __construct(private Security $security, private CommentRepository $repo, private UserRepository $userRepo)
-    {
-    }
+	public function __construct(private Security $security, private CommentRepository $repo, private UserRepository $userRepo)
+	{
+	}
 
-    public function __invoke(Comment $comment, Trick $trick): void
-    {
-        $username = $this->security->getUser()->getUserIdentifier();
-        $user = $this->userRepo->get($username);
-        $comment->setAuthor($user);
-        $comment->setCreated(new \DateTime());
-        $comment->setTrick($trick);
-        $this->repo->add($comment, true);
-    }
+	public function __invoke(Comment $comment, Trick $trick): void
+	{
+		$username = $this->security->getUser()->getUserIdentifier();
+		$user = $this->userRepo->get($username);
+		$comment->setAuthor($user);
+		$comment->setCreated(new \DateTime());
+		$comment->setTrick($trick);
+		$this->repo->add($comment, true);
+	}
 }

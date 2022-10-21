@@ -6,5 +6,5 @@ use App\Entity\User;
 
 interface EditPasswordUserInterface
 {
-    public function __invoke(User $user, String $newPassword): void;
+	public function __invoke(User $user, string $newPassword): void;
 }

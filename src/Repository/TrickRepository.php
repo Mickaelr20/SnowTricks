@@ -16,49 +16,50 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TrickRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Trick::class);
-    }
+	public function __construct(ManagerRegistry $registry)
+	{
+		parent::__construct($registry, Trick::class);
+	}
 
-    public function add(Trick $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
+	public function add(Trick $entity, bool $flush = false): void
+	{
+		$this->getEntityManager()->persist($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
+		if ($flush) {
+			$this->getEntityManager()->flush();
+		}
+	}
 
-    public function remove(Trick $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
+	public function remove(Trick $entity, bool $flush = false): void
+	{
+		$this->getEntityManager()->remove($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
+		if ($flush) {
+			$this->getEntityManager()->flush();
+		}
+	}
 
-    /**
-     * @return Trick Returns a trick with the id in param or null
-     */
-    public function get($id): Trick|null
-    {
-        return $this->createQueryBuilder('tricks')
-            ->andWhere('tricks.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
+	/**
+	 * @return Trick Returns a trick with the id in param or null
+	 */
+	public function get($id): Trick|null
+	{
+		return $this->createQueryBuilder('tricks')
+			->andWhere('tricks.id = :id')
+			->setParameter('id', $id)
+			->getQuery()
+			->getOneOrNullResult();
+	}
 
-    public function listPage($page, $limit = 12): array
-    {
-        $results = [];
-        $offset = $limit * $page;
-        return $this->createQueryBuilder('tricks')
-            ->setFirstResult($offset)
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult();
-    }
+	public function listPage($page, $limit = 12): array
+	{
+		$results = [];
+		$offset = $limit * $page;
+
+		return $this->createQueryBuilder('tricks')
+			->setFirstResult($offset)
+			->setMaxResults($limit)
+			->getQuery()
+			->getResult();
+	}
 }

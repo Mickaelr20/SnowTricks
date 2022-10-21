@@ -7,5 +7,5 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 interface EditProfileUserInterface
 {
-    public function __invoke(User $user, ?UploadedFile $profilePicture): void;
+	public function __invoke(User $user, ?UploadedFile $profilePicture): void;
 }

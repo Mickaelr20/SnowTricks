@@ -6,5 +6,5 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 interface FileUploaderInterface
 {
-    public function __invoke(UploadableInterface $uploadable, ?UploadedFile $thumbnailFile, String $targetDirectory): void;
+	public function __invoke(UploadableInterface $uploadable, ?UploadedFile $thumbnailFile, string $targetDirectory): void;
 }

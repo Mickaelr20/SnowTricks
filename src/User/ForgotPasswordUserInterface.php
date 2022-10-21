@@ -4,5 +4,5 @@ namespace App\User;
 
 interface ForgotPasswordUserInterface
 {
-    public function __invoke(String $email): void;
+	public function __invoke(string $email): void;
 }

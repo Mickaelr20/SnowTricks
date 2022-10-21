@@ -7,23 +7,23 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class FileUploader implements FileUploaderInterface
 {
-    public function __construct(private SluggerInterface $slugger)
-    {
-    }
+	public function __construct(private SluggerInterface $slugger)
+	{
+	}
 
-    public function __invoke(UploadableInterface $uploadable, ?UploadedFile $uploadedFile, String $targetDirectory): void
-    {
-        if (!empty($uploadedFile)) {
-            $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeFilename = $this->slugger->slug($originalFilename);
-            $newFilename = $safeFilename . '-' . uniqid() . '.' . $uploadedFile->guessExtension();
+	public function __invoke(UploadableInterface $uploadable, ?UploadedFile $uploadedFile, string $targetDirectory): void
+	{
+		if (!empty($uploadedFile)) {
+			$originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+			$safeFilename = $this->slugger->slug($originalFilename);
+			$newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
 
-            $uploadedFile->move(
-                $targetDirectory,
-                $newFilename
-            );
+			$uploadedFile->move(
+				$targetDirectory,
+				$newFilename
+			);
 
-            $uploadable->setFilename($newFilename);
-        }
-    }
+			$uploadable->setFilename($newFilename);
+		}
+	}
 }

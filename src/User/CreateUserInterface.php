@@ -6,5 +6,5 @@ use App\Entity\User;
 
 interface CreateUserInterface
 {
-    public function __invoke(User $user): void;
+	public function __invoke(User $user): void;
 }

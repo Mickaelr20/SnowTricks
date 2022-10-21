@@ -7,5 +7,5 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 interface CreateTrickInterface
 {
-    public function __invoke(Trick $trick, UploadedFile $thumbnailFile): void;
+	public function __invoke(Trick $trick, UploadedFile $thumbnailFile): void;
 }
