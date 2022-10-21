@@ -56,9 +56,9 @@ class TrickController extends AbstractController
     }
 
     #[Route('/trick/delete/{slug}', name: 'app_trick_delete', methods: ["GET", "POST"])]
-    public function delete(Trick $trick, TrickRepository $repo): Response
+    public function delete(Trick $trick, TrickRepository $repo, String $thumbnailsDir): Response
     {
-        $thumbnail = $this->getParameter('thumbnails_directory') . "/" . $trick->getThumbnailFilename();
+        $thumbnail = $thumbnailsDir . "/" . $trick->getThumbnailFilename();
 
         if (file_exists($thumbnail)) {
             unlink($thumbnail);
