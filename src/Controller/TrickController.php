@@ -102,55 +102,55 @@ class TrickController extends AbstractController
     #[Route('/trick/video_preview', name: 'app_trick_video_preview')]
     public function video_preview(Request $request): Response
     {
-        $preview_url = "";
-        $frame_title = "";
-        $frame_allow = "";
+        $previewUrl = "";
+        $frameTitle = "";
+        $frameAllow = "";
 
         // Calcul des variables
-        $url_arr = parse_url(urldecode($request->query->get("url")));
-        if (!empty($url_arr['host'])) {
-            $domain = str_replace('www.', '', $url_arr['host']);
+        $urlArray = parse_url(urldecode($request->query->get("url")));
+        if (!empty($urlArray['host'])) {
+            $domain = str_replace('www.', '', $urlArray['host']);
 
-            if (!empty($url_arr['query'])) {
-                $query_arr = [];
-                $splited_query = explode('&', $url_arr['query']);
-                foreach ($splited_query as $str_query) {
-                    $temp_splited = explode('=', $str_query);
-                    $query_arr[$temp_splited[0]] = $temp_splited[1];
+            if (!empty($urlArray['query'])) {
+                $queryArray = [];
+                $splitedQuery = explode('&', $urlArray['query']);
+                foreach ($splitedQuery as $strQuery) {
+                    $tempSplited = explode('=', $strQuery);
+                    $queryArray[$tempSplited[0]] = $tempSplited[1];
                 }
 
-                $url_arr['array_query'] = $query_arr;
+                $urlArray['arrayQuery'] = $queryArray;
             }
 
-            if (!empty($url_arr['path'])) {
-                $exploded_path = explode('/', $url_arr['path']);
-                foreach ($exploded_path as $path_point) {
-                    if (!empty($path_point)) {
-                        $url_arr['array_path'][] = $path_point;
+            if (!empty($urlArray['path'])) {
+                $explodedPath = explode('/', $urlArray['path']);
+                foreach ($explodedPath as $pathPoint) {
+                    if (!empty($pathPoint)) {
+                        $urlArray['arrayPath'][] = $pathPoint;
                     }
                 }
             }
 
             // Attribution des variables
             if (in_array($domain, ['youtube.com', 'youtu.be'])) {
-                $preview_url = "https://www.youtube.com/embed/" . $url_arr['array_query']['v'];
-                $frame_allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                $previewUrl = "https://www.youtube.com/embed/" . $urlArray['arrayQuery']['v'];
+                $frameAllow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
             } else if (in_array($domain, ['vimeo.com'])) {
-                $preview_url = "https://player.vimeo.com/video/" . $url_arr['array_path'][0];
-                $frame_allow = "autoplay; fullscreen; picture-in-picture";
+                $previewUrl = "https://player.vimeo.com/video/" . $urlArray['arrayPath'][0];
+                $frameAllow = "autoplay; fullscreen; picture-in-picture";
             } else if (in_array($domain, ['dailymotion.com', 'dai.ly'])) {
                 // https://www.dailymotion.com/video/x8drdz2?playlist=x5nmbq
-                $preview_url = "https://www.dailymotion.com/embed/video/" . $url_arr['array_path'][1];
-                $frame_allow = "autoplay; fullscreen; picture-in-picture";
+                $previewUrl = "https://www.dailymotion.com/embed/video/" . $urlArray['arrayPath'][1];
+                $frameAllow = "autoplay; fullscreen; picture-in-picture";
             }
 
-            $frame_title = "Video from " . $domain;
+            $frameTitle = "Video from " . $domain;
         }
 
         return $this->render('Elements/video/preview.html.twig', [
-            'preview_url' => $preview_url,
-            'frame_title' => $frame_title,
-            'frame_allow' => $frame_allow
+            'preview_url' => $previewUrl,
+            'frame_title' => $frameTitle,
+            'frame_allow' => $frameAllow
         ]);
     }
 }

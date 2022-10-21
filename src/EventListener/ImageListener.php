@@ -7,12 +7,12 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 class ImageListener
 {
 
-    function __construct(private string $images_directory){
+    function __construct(private string $imagesDirectory){
     }
 
     public function preRemove(Image $image): void
     {
-        $dir = $this->images_directory . "/" . $image->getFilename();
+        $dir = $this->imagesDirectory . "/" . $image->getFilename();
         unlink($dir);
     }
 
@@ -20,7 +20,7 @@ class ImageListener
     {
 
         if ($preUpdateEventArgs->hasChangedField('filename')) {
-            $dir = $this->images_directory . "/" . $preUpdateEventArgs->getOldValue("filename");
+            $dir = $this->imagesDirectory . "/" . $preUpdateEventArgs->getOldValue("filename");
             unlink($dir);
         }
     }

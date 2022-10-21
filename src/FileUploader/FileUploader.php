@@ -11,7 +11,7 @@ final class FileUploader implements FileUploaderInterface
     {
     }
 
-    public function __invoke(UploadableInterface $uploadable, ?UploadedFile $uploadedFile, String $target_directory): void
+    public function __invoke(UploadableInterface $uploadable, ?UploadedFile $uploadedFile, String $targetDirectory): void
     {
         if (!empty($uploadedFile)) {
             $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -19,7 +19,7 @@ final class FileUploader implements FileUploaderInterface
             $newFilename = $safeFilename . '-' . uniqid() . '.' . $uploadedFile->guessExtension();
 
             $uploadedFile->move(
-                $target_directory,
+                $targetDirectory,
                 $newFilename
             );
 

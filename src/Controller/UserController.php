@@ -118,8 +118,8 @@ class UserController extends AbstractController
     #[Route('/reset_password/{resetPasswordToken}', name: 'app_user_reset_password', methods: ["GET", "POST"])]
     public function reset_password(User $user, Request $request, ResetPasswordUserInterface $resetPassword): Response
     {
-        $now_date = new \Datetime();
-        if ($now_date > $user->getResetPasswordExpire()) {
+        $nowDate = new \Datetime();
+        if ($nowDate > $user->getResetPasswordExpire()) {
             throw new \Exception("Lien expiré");
         }
 

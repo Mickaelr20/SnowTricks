@@ -3,7 +3,6 @@
 namespace App\EventListener;
 
 use App\Entity\Video;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class VideoListener
 {
@@ -16,24 +15,24 @@ class VideoListener
     {
         $video->virtual = [];
 
-        $url_arr = parse_url(urldecode($video->getLink()));
-        if (!empty($url_arr['host'])) {
+        $urlArray = parse_url(urldecode($video->getLink()));
+        if (!empty($urlArray['host'])) {
             // Calcul des variables
-            $domain = str_replace('www.', '', $url_arr['host']);
-            if (!empty($url_arr['query'])) {
-                $query_arr = [];
-                $splited_query = explode('&', $url_arr['query']);
-                foreach ($splited_query as $str_query) {
-                    $temp_splited = explode('=', $str_query);
-                    $query_arr[$temp_splited[0]] = $temp_splited[1];
+            $domain = str_replace('www.', '', $urlArray['host']);
+            if (!empty($urlArray['query'])) {
+                $queryArray = [];
+                $splitedArray = explode('&', $urlArray['query']);
+                foreach ($splitedArray as $strQuery) {
+                    $tempSplited = explode('=', $strQuery);
+                    $queryArray[$tempSplited[0]] = $tempSplited[1];
                 }
-                $url_arr['array_query'] = $query_arr;
+                $urlArray['arrayQuery'] = $queryArray;
             }
-            if (!empty($url_arr['path'])) {
-                $exploded_path = explode('/', $url_arr['path']);
-                foreach ($exploded_path as $path_point) {
-                    if (!empty($path_point)) {
-                        $url_arr['array_path'][] = $path_point;
+            if (!empty($urlArray['path'])) {
+                $explodedPath = explode('/', $urlArray['path']);
+                foreach ($explodedPath as $pathPoint) {
+                    if (!empty($pathPoint)) {
+                        $urlArray['arrayPath'][] = $pathPoint;
                     }
                 }
             }
@@ -42,19 +41,19 @@ class VideoListener
             $video->virtual['domain'] = $domain;
 
             if (in_array($domain, ['youtube.com', 'youtu.be'])) {
-                $video->virtual['video_code'] = $url_arr['array_query']['v'];
-                $video->virtual['thumbnail_url'] = "https://img.youtube.com/vi/" . $url_arr['array_query']['v'] . "/0.jpg";
-                $video->virtual["preview_url"] = "https://www.youtube.com/embed/" . $url_arr['array_query']['v'];
+                $video->virtual['video_code'] = $urlArray['arrayQuery']['v'];
+                $video->virtual['thumbnail_url'] = "https://img.youtube.com/vi/" . $urlArray['arrayQuery']['v'] . "/0.jpg";
+                $video->virtual["preview_url"] = "https://www.youtube.com/embed/" . $urlArray['arrayQuery']['v'];
                 $video->virtual["frame_allow"] = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
             } else if (in_array($domain, ['vimeo.com'])) {
-                $video->virtual['video_code'] = $url_arr['array_path'][0];
+                $video->virtual['video_code'] = $urlArray['arrayPath'][0];
                 $video->virtual['thumbnail_url'] = null;
-                $video->virtual["preview_url"] = "https://player.vimeo.com/video/" . $url_arr['array_path'][0];
+                $video->virtual["preview_url"] = "https://player.vimeo.com/video/" . $urlArray['arrayPath'][0];
                 $video->virtual["frame_allow"] = "autoplay; fullscreen; picture-in-picture";
             } else if (in_array($domain, ['dailymotion.com', 'dai.ly'])) {
-                $video->virtual['video_code'] = $url_arr['array_path'][1];
-                $video->virtual['thumbnail_url'] = "https://www.dailymotion.com/thumbnail/video/" . $url_arr['array_path'][1];
-                $video->virtual["preview_url"] = "https://www.dailymotion.com/embed/video/" . $url_arr['array_path'][1];
+                $video->virtual['video_code'] = $urlArray['arrayPath'][1];
+                $video->virtual['thumbnail_url'] = "https://www.dailymotion.com/thumbnail/video/" . $urlArray['arrayPath'][1];
+                $video->virtual["preview_url"] = "https://www.dailymotion.com/embed/video/" . $urlArray['arrayPath'][1];
                 $video->virtual["frame_allow"] = "autoplay; fullscreen; picture-in-picture";
             }
 
