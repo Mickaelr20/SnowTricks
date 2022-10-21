@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\FileUploader\UploadableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadableInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -39,10 +40,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $resetPasswordToken = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?string $resetPasswordCreated = null;
+    private ?\DateTime $resetPasswordCreated = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?string $resetPasswordExpire = null;
+    private ?\DateTime $resetPasswordExpire = null;
 
     public function __construct()
     {
@@ -126,6 +127,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function setProfilePictureFilename(?string $profilePictureFilename): self
+    {
+        $this->profilePictureFilename = $profilePictureFilename;
+
+        return $this;
+    }
+
+    public function setFilename(?string $profilePictureFilename): self
     {
         $this->profilePictureFilename = $profilePictureFilename;
 

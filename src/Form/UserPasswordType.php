@@ -8,6 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserPasswordType extends AbstractType
 {
@@ -17,7 +19,11 @@ class UserPasswordType extends AbstractType
             ->add('oldPassword', PasswordType::class, [
                 'required' => true,
                 'label' => 'Mot de passe actuel',
-                'mapped' => false
+                'mapped' => false,
+                'constraints' => [
+                    new UserPassword(),
+                    new NotBlank()
+                ]
             ])
             ->add('newPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -25,14 +31,17 @@ class UserPasswordType extends AbstractType
                 'required' => true,
                 'first_options'  => ['label' => 'Nouveau mot de passe'],
                 'second_options' => ['label' => 'Répéter nouveau mot de passe'],
-                'mapped' => false
+                'mapped' => false,
+                'constraints' => [
+                    new NotBlank()
+                ]
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => null
+            'data_class' => User::class
         ]);
     }
 }

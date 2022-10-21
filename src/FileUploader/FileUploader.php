@@ -4,6 +4,7 @@ namespace App\FileUploader;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
+
 final class FileUploader implements FileUploaderInterface
 {
     public function __construct(private SluggerInterface $slugger)
