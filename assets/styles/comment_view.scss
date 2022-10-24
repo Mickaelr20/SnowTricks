@@ -10,12 +10,10 @@
 }
 
 #commentList .comment-avatar {
-    object-fit: contain;
+    object-fit: cover;
     width: 50px;
     height: 50px;
     border-radius: 0.25rem;
-    /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
 }
 
 #commentList .comment-box {
@@ -23,8 +21,7 @@
     margin: 0 0 1rem 1rem;
     position: relative;
     border-radius: 0.25rem;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border: 0.1rem solid #dfdfdf;
 }
 
 #commentList .comment-head {
