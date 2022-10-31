@@ -27,5 +27,4 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 ### App
-/public/uploads/
 /tools/php-cs-fixer/vendor
