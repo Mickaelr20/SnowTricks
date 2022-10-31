@@ -49,10 +49,12 @@
 
 .trick-card {
     transition: 0.1s;
+    height: 250px;
 }
 
 .trick-card img {
-    height: 400%;
+    height: 200%;
+    object-fit: cover;
 }
 
 .scroll-arrow {
