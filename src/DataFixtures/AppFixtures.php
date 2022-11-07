@@ -477,6 +477,57 @@ class AppFixtures extends Fixture
                     ]
                 ],
                 'category' => $trickCategories['Flip']
+            ],
+            [ //Front roll
+                'name' => 'Front roll',
+                'description' => "Le front roll déplace votre corps dans un mouvement vers l'avant, mais il s'incline un peu sur le côté.
+                Maîtriser avant de passer à un flip avant complet.",
+                'created' => $this->faker->dateTimeBetween('-8 months', '-7 months'),
+                'slug' => 'front-roll',
+                'thumbnailFilename' => 'front_roll.jpg',
+                'videos' => [
+                    [
+                        'title' => 'Un Front roll par SnowboardProCamp',
+                        'link' => 'https://www.youtube.com/watch?v=eGJ8keB1-JM&ab_channel=SnowboardProCamp'
+                    ], [
+                        'title' => 'Nicmorency: Front roll',
+                        'link' => 'https://www.youtube.com/watch?v=iTqv7rtmThM&ab_channel=Nicmorency'
+                    ]
+                ],
+                'images' => [
+                    [
+                        'name' => 'Front roll',
+                        'filename' => 'front_roll.jpg'
+                    ],
+                    [
+                        'name' => 'Un Front roll',
+                        'filename' => 'front_roll_2.jpg'
+                    ]
+                ],
+                'comments' => [
+                    [
+                        'content' => 'Merci beaucoup !',
+                        'created' => $this->faker->dateTimeBetween('-6 months'),
+                        'author' => $users['Yalpaka']
+                    ], [
+                        'content' => 'Toujours plus de figure ! Yay',
+                        'created' => $this->faker->dateTimeBetween('-6 months'),
+                        'author' => $users['xXBigBossXx']
+                    ], [
+                        'content' => $this->faker->text(),
+                        'created' => $this->faker->dateTimeBetween('-6 months'),
+                        'author' => $users['Yalpaka']
+                    ], [
+                        'content' => 'Un bon endroit où apprendre, bonne chance à tous !',
+                        'created' => $this->faker->dateTimeBetween('-6 months'),
+                        'author' => $users[self::DEFAULT_USER_USERNAME]
+                    ], [
+                        'content' => 'J\'adore cette figure :o',
+                        'created' => $this->faker->dateTimeBetween('-6 months'),
+                        'author' => $users['SuperDuperSnower']
+                    ]
+                ],
+                'category' => $trickCategories['Flip']
             ]
         ];
 
