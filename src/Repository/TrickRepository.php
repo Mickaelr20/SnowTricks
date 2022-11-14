@@ -53,7 +53,6 @@ class TrickRepository extends ServiceEntityRepository
 
 	public function listPage($page, $limit = 12): array
 	{
-		$results = [];
 		$offset = $limit * $page;
 
 		return $this->createQueryBuilder('tricks')

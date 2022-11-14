@@ -19,7 +19,7 @@ class TrickTest extends WebTestCase
     public function testTrick(): void
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/trick/view/grab-mute');
+        $client->request('GET', '/trick/view/grab-mute');
 
         $this->assertResponseIsSuccessful();
 

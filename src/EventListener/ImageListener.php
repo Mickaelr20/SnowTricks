@@ -17,7 +17,7 @@ class ImageListener
 		unlink($dir);
 	}
 
-	public function preUpdate(Image $image, PreUpdateEventArgs $preUpdateEventArgs): void
+	public function preUpdate(PreUpdateEventArgs $preUpdateEventArgs): void
 	{
 		if ($preUpdateEventArgs->hasChangedField('filename')) {
 			$dir = $this->imagesDirectory.'/'.$preUpdateEventArgs->getOldValue('filename');
