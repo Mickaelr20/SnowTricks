@@ -7,11 +7,11 @@
   object-fit: contain;
 }
 
-.video-card {
+.video-card, .image-card {
   scroll-snap-align: start;
 }
 
-#trick_edit_videos {
+#trick_edit_videos, #trick_edit_images {
   flex-wrap: nowrap;
   overflow-x: scroll;
   margin-bottom: 1rem;
