@@ -15,7 +15,7 @@ function addVideo() {
     element.find(".video-remove").on('click', function () {
         removeVideo($(this));
     });
-    element.find('[id$="_link"]').on('click', function () {
+    element.find('[id$="_link"]').on('change', function () {
         displayVideoPreview($(this));
     });
     videoCollectionHolder.append(element);
