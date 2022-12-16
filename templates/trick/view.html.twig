@@ -92,16 +92,19 @@
     <hr />
   </section>
 
-  <div class="container mb-4">
-    {{ form_start(form_comment) }}
-    {{ form_rest(form_comment) }}
-    <button class="btn btn-primary" type="submit">Envoyer</button>
-    {{ form_end(form_comment) }}
-  </div>
+  {% if app.user %}
+    <div class="container mb-4">
+      {{ form_start(form_comment) }}
+      {{ form_rest(form_comment) }}
+      <button class="btn btn-primary" type="submit">Envoyer</button>
+      {{ form_end(form_comment) }}
+    </div>
+    
+    <section class="px-3 mb-3">
+      <hr />
+    </section>
+  {% endif %}
 
-  <section class="px-3 mb-3">
-    <hr />
-  </section>
 
   <div class="px-3 mb-3">
     <ul id="commentList" class="container">
