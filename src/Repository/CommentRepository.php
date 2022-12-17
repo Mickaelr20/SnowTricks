@@ -39,28 +39,35 @@ class CommentRepository extends ServiceEntityRepository
 		}
 	}
 
-//    /**
-//     * @return Comment[] Returns an array of Comment objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+	public function listCommentsPage($trickId, $page, $limit = 5): array
+	{
+		$offset = $limit * $page;
 
-//    public function findOneBySomeField($value): ?Comment
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+		return $this->findBy(['trick' => $trickId], ['created' => 'DESC'], $limit, $offset);
+	}
+
+	//    /**
+	//     * @return Comment[] Returns an array of Comment objects
+	//     */
+	//    public function findByExampleField($value): array
+	//    {
+	//        return $this->createQueryBuilder('c')
+	//            ->andWhere('c.exampleField = :val')
+	//            ->setParameter('val', $value)
+	//            ->orderBy('c.id', 'ASC')
+	//            ->setMaxResults(10)
+	//            ->getQuery()
+	//            ->getResult()
+	//        ;
+	//    }
+
+	//    public function findOneBySomeField($value): ?Comment
+	//    {
+	//        return $this->createQueryBuilder('c')
+	//            ->andWhere('c.exampleField = :val')
+	//            ->setParameter('val', $value)
+	//            ->getQuery()
+	//            ->getOneOrNullResult()
+	//        ;
+	//    }
 }

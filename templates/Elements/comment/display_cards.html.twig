@@ -1,0 +1,3 @@
+{% for comment in comments %}
+    {% include 'Elements/comment/display_card.html.twig' with {'comment': comment} %}
+{% endfor %}
