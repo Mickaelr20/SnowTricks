@@ -47,24 +47,23 @@
           video: video
         } %}
       {% endfor %}
-      
     </div>
   </section>
 
   <div class="d-flex flex-row">
-      {% for image in trick.images %}
-        {% include 'Elements/image/display_fullscreen.html.twig' with {
-          image: image
-        } %}
-      {% endfor %}
+    {% for image in trick.images %}
+      {% include 'Elements/image/display_fullscreen.html.twig' with {
+        image: image
+      } %}
+    {% endfor %}
 
-      {% for video in trick.videos %}
-        {% include 'Elements/video/display_fullscreen.html.twig' with {
-          video: video
-        } %}
-      {% endfor %}
+    {% for video in trick.videos %}
+      {% include 'Elements/video/display_fullscreen.html.twig' with {
+        video: video
+      } %}
+    {% endfor %}
   </div>
-  
+
   <section class="px-3 mb-3">
     {{ trick.description|nl2br }}
   </section>
@@ -99,12 +98,11 @@
       <button class="btn btn-primary" type="submit">Envoyer</button>
       {{ form_end(form_comment) }}
     </div>
-    
+
     <section class="px-3 mb-3">
       <hr />
     </section>
   {% endif %}
-
 
   <div class="px-3 mb-3">
     <ul id="commentList" class="container">
@@ -114,7 +112,18 @@
         } %}
       {% endfor %}
     </ul>
+    <div id="load_more_buttons" class="position-relative px-3 pb-3 d-flex justify-content-center align-items-center">
+      <button type="button" class="fw-bold btn btn-outline-secondary load-more">
+        Charger plus
+      </button>
+      <button type="button" disabled=true class="fw-bold btn btn-outline-secondary d-none loading-more">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Chargement ...
+      </button>
+    </div>
   </div>
+
+  <div class="d-none" id="trickViewData" data-trick-id="{{ trick.id }}"></div>
 {% endblock %}
 
 {% block javascripts_bottom %}

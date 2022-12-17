@@ -7,6 +7,7 @@ use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentAddType;
 use App\Form\TrickEditType;
+use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use App\Trick\CreateTrickInterface;
 use App\Trick\EditTrickInterface;
@@ -89,6 +90,7 @@ class TrickController extends AbstractController
 		usort($trickComments, function ($a, $b) {
 			return $a->getCreated() >= $b->getCreated() ? -1 : 1;
 		});
+		$trickComments = array_slice($trickComments, 0, 5, true);
 
 		return $this->renderForm('trick/view.html.twig', [
 			'form_comment' => $formComment,
@@ -105,6 +107,20 @@ class TrickController extends AbstractController
 
 		return $this->render('Elements/trick/display_cards.html.twig', [
 			'tricks' => $tricks,
+		]);
+	}
+
+	#[Route('/trick/load_more_comments', name: 'app_trick_load_more_comments')]
+	public function load_more_comments(Request $request, CommentRepository $commentRepository): Response
+	{
+
+		$trickId = $request->query->get('trickId');
+		$page = $request->query->get('page');
+
+		$comments = $commentRepository->listCommentsPage($trickId, $page, 5);
+
+		return $this->render('Elements/comment/display_cards.html.twig', [
+			'comments' => $comments,
 		]);
 	}
 
