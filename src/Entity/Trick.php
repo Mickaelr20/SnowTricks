@@ -31,7 +31,7 @@ class Trick implements UploadableInterface
 	#[ORM\Column(type: 'string', length: 255)]
 	private string $thumbnailFilename;
 
-	#[ORM\Column(type: 'string', length: 255)]
+	#[ORM\Column(type: 'string', length: 255, unique: true)]
 	private string $slug;
 
 	/**
