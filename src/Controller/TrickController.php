@@ -61,7 +61,7 @@ class TrickController extends AbstractController
 	#[Route('/trick/delete/{slug}', name: 'app_trick_delete', methods: ['GET', 'POST'])]
 	public function delete(Trick $trick, TrickRepository $repo, string $thumbnailsDir): Response
 	{
-		$thumbnail = $thumbnailsDir . '/' . $trick->getThumbnailFilename();
+		$thumbnail = $thumbnailsDir.'/'.$trick->getThumbnailFilename();
 
 		if (file_exists($thumbnail)) {
 			unlink($thumbnail);
@@ -95,7 +95,7 @@ class TrickController extends AbstractController
 		return $this->renderForm('trick/view.html.twig', [
 			'form_comment' => $formComment,
 			'trick' => $trick,
-			'page_title' => $trick->getName() . ' - trick',
+			'page_title' => $trick->getName().' - trick',
 			'comments' => $trickComments,
 		]);
 	}
@@ -113,7 +113,6 @@ class TrickController extends AbstractController
 	#[Route('/trick/load_more_comments', name: 'app_trick_load_more_comments')]
 	public function load_more_comments(Request $request, CommentRepository $commentRepository): Response
 	{
-
 		$trickId = $request->query->get('trickId');
 		$page = $request->query->get('page');
 
@@ -158,18 +157,18 @@ class TrickController extends AbstractController
 
 			// Attribution des variables
 			if (in_array($domain, ['youtube.com', 'youtu.be'])) {
-				$previewUrl = 'https://www.youtube.com/embed/' . $urlArray['arrayQuery']['v'];
+				$previewUrl = 'https://www.youtube.com/embed/'.$urlArray['arrayQuery']['v'];
 				$frameAllow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
 			} elseif (in_array($domain, ['vimeo.com'])) {
-				$previewUrl = 'https://player.vimeo.com/video/' . $urlArray['arrayPath'][0];
+				$previewUrl = 'https://player.vimeo.com/video/'.$urlArray['arrayPath'][0];
 				$frameAllow = 'autoplay; fullscreen; picture-in-picture';
 			} elseif (in_array($domain, ['dailymotion.com', 'dai.ly'])) {
 				// https://www.dailymotion.com/video/x8drdz2?playlist=x5nmbq
-				$previewUrl = 'https://www.dailymotion.com/embed/video/' . $urlArray['arrayPath'][1];
+				$previewUrl = 'https://www.dailymotion.com/embed/video/'.$urlArray['arrayPath'][1];
 				$frameAllow = 'autoplay; fullscreen; picture-in-picture';
 			}
 
-			$frameTitle = 'Video from ' . $domain;
+			$frameTitle = 'Video from '.$domain;
 		}
 
 		return $this->render('Elements/video/preview.html.twig', [
